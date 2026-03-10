@@ -1,11 +1,11 @@
-import { Router } from 'express'
 import { authMiddleware } from '../middleware/auth.middleware'
 import { createPost, listPosts } from '../services/post.service'
+import { Request, Response, NextFunction, Router} from 'express'
 
 export const postsRouter = Router()
 
 // GET /api/posts?inventoryId=xxx
-postsRouter.get('/', async (req, res, next) => {
+postsRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const inventoryId = String(req.query.inventoryId ?? '').trim()
     if (!inventoryId) throw { status: 400, message: 'inventoryId is required' }
@@ -20,7 +20,7 @@ postsRouter.get('/', async (req, res, next) => {
 
 // POST /api/posts
 // body: { inventoryId, bodyMd }
-postsRouter.post('/', authMiddleware, async (req, res, next) => {
+postsRouter.post('/', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
   try {
     const inventoryId = String(req.body?.inventoryId ?? '').trim()
     const bodyMd = String(req.body?.bodyMd ?? '')
