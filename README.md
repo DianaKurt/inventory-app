@@ -20,7 +20,7 @@ Backend API:
 `https://link.com`
 
 Repository:
-`https://github.com/yourname/inventory-app`
+`https://github.com/DianaKurt/inventory-app.git`
 
 ---
 
