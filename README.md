@@ -14,10 +14,10 @@ Users can:
 # Live Demo
 
 Frontend:
-`https://link.com`
+`https://inventory-app-client-alpha.vercel.app/`
 
 Backend API:
-`https://link.com`
+`https://inventory-app-t1u6.onrender.com`
 
 Repository:
 `https://github.com/DianaKurt/inventory-app.git`
