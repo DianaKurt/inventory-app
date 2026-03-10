@@ -10,6 +10,7 @@ import { createWss } from './socket'
 const app = createApp()
 
 // Static only in production
+
 if (env.NODE_ENV === 'production') {
   const clientDist = path.resolve(process.cwd(), '../client/dist')
   app.use(express.static(clientDist))
@@ -25,6 +26,8 @@ const server = http.createServer(app)
 createWss(server)
 
 server.listen(env.PORT, () => {
-  console.log(`API listening on http://localhost:${env.PORT}`)
+
+  console.log(`API listening on port ${env.PORT}`)
+
   console.log(`WS  listening on ws://localhost:${env.PORT}/ws`)
 })

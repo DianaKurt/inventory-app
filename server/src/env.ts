@@ -15,7 +15,10 @@ function must(name: string): string {
 export const env: Env = {
   NODE_ENV: (process.env.NODE_ENV as Env['NODE_ENV']) ?? 'development',
   PORT: Number(process.env.PORT ?? 3001),
-  DATABASE_URL: process.env.DATABASE_URL ?? '', 
+
+  DATABASE_URL: must('DATABASE_URL'), 
+
   CLIENT_ORIGIN: process.env.CLIENT_ORIGIN ?? 'http://localhost:5173',
-  SESSION_SECRET: process.env.SESSION_SECRET ?? 'dev-secret-change-me',
+
+  SESSION_SECRET: must('SESSION_SECRET'),
 }
