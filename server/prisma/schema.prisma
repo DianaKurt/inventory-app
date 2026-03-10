@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String            @id @default(cuid())
+  email            String            @unique
+  name             String?
+  role             Role              @default(USER)
+  blocked          Boolean           @default(false)
+  createdAt        DateTime          @default(now())
+  passwordHash     String
+  inventoriesOwned Inventory[]       @relation("OwnerInventories")
+  inventoryAccess  InventoryAccess[]
+  itemsCreated     Item[]
+  likes            Like[]
+  posts            Post[]
+}
+
+model Inventory {
+  id             String            @id @default(cuid())
+  title          String
+  description    String            @default("")
+  category       String
+  imageUrl       String?
+  isPublic       Boolean           @default(false)
+  version        Int               @default(1)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  ownerId        String
+  customIdFormat Json              @default("[]")
+  customIdSeq    Int               @default(0)
+  customIdPrefix String            @default("INV")
+  fields         Field[]
+  owner          User              @relation("OwnerInventories", fields: [ownerId], references: [id])
+  access         InventoryAccess[]
+  tags           InventoryTag[]
+  items          Item[]
+  posts          Post[]
+
+  @@index([ownerId])
+  @@index([updatedAt])
+}
+
+model Tag {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  inventories InventoryTag[]
+}
+
+model InventoryTag {
+  inventoryId String
+  tagId       String
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  tag         Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([inventoryId, tagId])
+  @@index([tagId])
+}
+
+model InventoryAccess {
+  inventoryId String
+  userId      String
+  canWrite    Boolean   @default(true)
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([inventoryId, userId])
+  @@index([userId])
+}
+
+model Field {
+  id          String           @id @default(cuid())
+  inventoryId String
+  type        FieldType
+  title       String
+  description String           @default("")
+  showInTable Boolean          @default(true)
+  order       Int              @default(0)
+  required    Boolean          @default(false)
+  inventory   Inventory        @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  values      ItemFieldValue[]
+}
+
+model Item {
+  id          String           @id @default(cuid())
+  inventoryId String
+  customId    String
+  version     Int              @default(0)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  createdById String
+  createdBy   User             @relation(fields: [createdById], references: [id])
+  inventory   Inventory        @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  fields      ItemFieldValue[]
+  likes       Like[]
+
+  @@unique([inventoryId, customId])
+  @@index([inventoryId])
+}
+
+model ItemFieldValue {
+  id          String   @id @default(cuid())
+  itemId      String
+  fieldId     String
+  textValue   String?
+  numberValue Float?
+  boolValue   Boolean?
+  linkValue   String?
+  field       Field    @relation(fields: [fieldId], references: [id], onDelete: Cascade)
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([itemId, fieldId])
+  @@index([fieldId])
+}
+
+model Like {
+  itemId    String
+  userId    String
+  createdAt DateTime @default(now())
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([itemId, userId])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  inventoryId String
+  userId      String
+  bodyMd      String
+  createdAt   DateTime  @default(now())
+  inventory   Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([inventoryId, createdAt])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum FieldType {
+  TEXT_SINGLE
+  TEXT_MULTI
+  NUMBER
+  LINK
+  BOOLEAN
+}

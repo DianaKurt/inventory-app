@@ -1,0 +1,63 @@
+{
+  "name": "inventory-app",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c auto \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:client": "npm run dev -w client",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w client && npm run build -w server",
+    "start": "npm run start -w server",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d",
+    "prisma:generate": "npm run prisma:generate -w server",
+    "prisma:migrate": "npm run prisma:migrate -w server",
+    "prisma:studio": "npx -w server prisma studio",
+    "seed": "npm run seed -w server",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix",
+    "analyze:depcheck": "npm run analyze:depcheck:client && npm run analyze:depcheck:server",
+    "analyze:depcheck:client": "depcheck ./client --skip-missing --ignores=\"@types/*\"",
+    "analyze:depcheck:server": "depcheck ./server --skip-missing --ignores=\"@types/*\"",
+    "analyze:prune": "npm run analyze:prune:client && npm run analyze:prune:server",
+    "analyze:prune:client": "ts-prune -p client/tsconfig.json",
+    "analyze:prune:server": "ts-prune -p server/tsconfig.json",
+    "analyze:madge": "npm run analyze:madge:client && npm run analyze:madge:server",
+    "analyze:madge:client": "madge --ts-config client/tsconfig.json --extensions ts,tsx client/src",
+    "analyze:madge:server": "madge --ts-config server/tsconfig.json --extensions ts,tsx server/src",
+    "analyze:cycles": "npm run analyze:cycles:client && npm run analyze:cycles:server",
+    "analyze:cycles:client": "madge --ts-config client/tsconfig.json --extensions ts,tsx --circular client/src",
+    "analyze:cycles:server": "madge --ts-config server/tsconfig.json --extensions ts,tsx --circular server/src",
+    "analyze:orphans": "npm run analyze:orphans:client && npm run analyze:orphans:server",
+    "analyze:orphans:client": "madge --ts-config client/tsconfig.json --extensions ts,tsx --orphans client/src",
+    "analyze:orphans:server": "madge --ts-config server/tsconfig.json --extensions ts,tsx --orphans server/src"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "concurrently": "^8.2.2",
+    "depcheck": "^1.4.7",
+    "eslint": "^9.36.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-unused-imports": "^4.2.0",
+    "globals": "^15.15.0",
+    "madge": "^8.0.0",
+    "ts-prune": "^0.10.3",
+    "typescript-eslint": "^8.46.1"
+  },
+  "overrides": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "@types/express-session": {
+      "@types/express": "4.17.25"
+    },
+    "@types/express": "4.17.25"
+  },
+  "dependencies": {
+    "connect-pg-simple": "^10.0.0"
+  }
+}

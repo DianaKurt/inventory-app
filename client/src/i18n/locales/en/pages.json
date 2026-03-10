@@ -1,0 +1,17 @@
+{
+  "home": {
+    "title": "Home"
+  },
+  "user": {
+    "title": "My workspace"
+  },
+  "admin": {
+    "title": "Admin panel"
+  },
+  "auth": {
+    "title": "Sign in"
+  },
+  "users":{
+    "title": "Users"
+  }
+}

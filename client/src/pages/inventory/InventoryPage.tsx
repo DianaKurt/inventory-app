@@ -1,0 +1,162 @@
+import { useQuery } from '@tanstack/react-query'
+import { useParams, useSearchParams } from 'react-router-dom'
+import {
+  Container,
+  Stack,
+  Paper,
+  Box,
+  alpha,
+  Typography,
+  Skeleton,
+} from '@mui/material'
+
+import { apiGet } from '@/shared/api/http'
+import InventoryHeader from './ui/InventoryHeader'
+import InventoryTabs from './ui/InventoryTabs'
+import { useTranslation } from 'react-i18next'
+
+// Tabs
+import ItemsTab from './tabs/items-tab'
+import FieldsTab from './tabs/fields-tab'
+import DiscussionTab from './tabs/discussion-tab'
+import AccessTab from './tabs/access-tab'
+import CustomIdTab from './tabs/custom-id-tab'
+import SettingsTab from './tabs/settings-tab'
+import StatsTab from './tabs/stats-tab'
+
+const TAB_KEYS = [
+  'items',
+  'fields',
+  'discussion',
+  'access',
+  'custom-id',
+  'settings',
+  'stats',
+] as const
+
+type TabKey = (typeof TAB_KEYS)[number]
+
+type Inventory = {
+  id: string
+  title: string
+  category: string | null
+  itemsCount: number
+  ownerName: string
+  updatedAt: string
+}
+
+function resolveTab(raw: string | null): TabKey {
+  const t = (raw ?? 'items') as TabKey
+  return (TAB_KEYS as readonly string[]).includes(t) ? t : 'items'
+}
+
+export default function InventoryPage() {
+  const { t } = useTranslation('common')
+  const { inventoryId } = useParams()
+  const [sp] = useSearchParams()
+
+  const tab = resolveTab(sp.get('tab'))
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['inventory', inventoryId],
+    enabled: Boolean(inventoryId),
+    queryFn: () => apiGet<Inventory>(`/inventories/${inventoryId}`),
+  })
+
+  const disabled = !inventoryId || isLoading || isError
+
+  const content = (() => {
+    if (isLoading) {
+      return (
+        <Stack spacing={2}>
+          <Skeleton variant="rounded" height={44} />
+          <Skeleton variant="rounded" height={120} />
+          <Skeleton variant="rounded" height={260} />
+        </Stack>
+      )
+    }
+
+    if (isError || !inventoryId) {
+      return (
+        <Typography variant="body2" color="error">
+          {t('errors.failedToLoadInventory')}
+        </Typography>
+      )
+    }
+
+    switch (tab) {
+      case 'items':
+        return <ItemsTab />
+      case 'fields':
+        return <FieldsTab />
+      case 'discussion':
+        return <DiscussionTab />
+      case 'access':
+        return <AccessTab />
+      case 'custom-id':
+        return <CustomIdTab />
+      case 'settings':
+        return <SettingsTab />
+      case 'stats':
+        return <StatsTab />
+      default:
+        return <ItemsTab />
+    }
+  })()
+
+  return (
+    <Box
+      sx={(theme) => ({
+        minHeight: '100vh',
+        py: { xs: 3, md: 5 },
+        background: `
+          radial-gradient(circle at 12% 0%, ${alpha(theme.palette.primary.main, 0.12)}, transparent 45%),
+          radial-gradient(circle at 88% 0%, ${alpha(theme.palette.secondary.main, 0.12)}, transparent 50%),
+          linear-gradient(to bottom, ${alpha(theme.palette.background.default, 1)}, ${alpha(theme.palette.background.default, 0.94)} 50%, ${alpha(theme.palette.background.default, 1)})
+        `,
+      })}
+    >
+      <Container maxWidth="lg">
+        <Stack spacing={2.5}>
+          <InventoryHeader
+            inventory={data ? { ...data, category: data.category ?? '—' } : null}
+            loading={isLoading}
+            error={isError ? t('errors.failedToLoadInventory') : undefined}
+          />
+
+          <Paper
+            elevation={0}
+            sx={(theme) => ({
+              borderRadius: 4,
+              border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
+              overflow: 'hidden',
+              backgroundColor: alpha(theme.palette.background.paper, 0.9),
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 18px 50px rgba(0,0,0,0.05)',
+            })}
+          >
+            <Box
+              sx={(theme) => ({
+                px: { xs: 1.5, md: 2 },
+                pt: { xs: 1.5, md: 2 },
+                pb: 1,
+                borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
+                background: `linear-gradient(to bottom, ${alpha(theme.palette.primary.main, 0.03)}, transparent)`,
+              })}
+            >
+              <InventoryTabs disabled={disabled} />
+            </Box>
+
+            <Box
+              sx={{
+                p: { xs: 1.5, md: 2.5 },
+              }}
+            >
+              {content}
+            </Box>
+          </Paper>
+        </Stack>
+      </Container>
+    </Box>
+  )
+}

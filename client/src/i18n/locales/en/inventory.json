@@ -1,0 +1,30 @@
+{
+  "title": "Inventories",
+  "create": "Create inventory",
+
+  "table": {
+    "title": "Title",
+    "category": "Category",
+    "itemsCount": "Items",
+    "owner": "Owner",
+    "updatedAt": "Updated"
+  },
+
+  "empty": {
+    "title": "No inventories",
+    "description": "Create an inventory to get started."
+  },
+
+  "errors": {
+    "loadFailed": "Failed to load inventories"
+  },
+  "tabs": {
+    "items": "Items",
+    "fields": "Fields",
+    "discussion": "Discussion",
+    "access": "Access",
+    "customId": "Custom ID",
+    "settings": "Settings",
+    "stats": "Stats"
+  }
+}

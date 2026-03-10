@@ -1,0 +1,322 @@
+{
+  "empty": {
+    "noInventoriesTitle": "No inventories",
+    "noInventoriesDescription": "Create an inventory to get started."
+  },
+  "app": {
+    "title": "Inventory App"
+  },
+  "nav": {
+    "home": "Home",
+    "inventories": "Inventories",
+    "admin": "Admin",
+    "workspace": "My workspace",
+    "login": "Login",
+    "signIn": "Sign in",
+    "logout": "Logout"
+  },
+    "common": {
+    "loading": "Loading…",
+    "back": "Back"
+  },
+
+  "home": {
+    "dashboardTitle": "Dashboard",
+    "dashboardSubtitle": "Overview of your inventories, activity and trending collections.",
+    "popularTagsTitle": "Popular tags",
+    "popularTagsSubtitle": "Browse inventories by category.",
+    "latestInventoriesTitle": "Latest inventories",
+    "latestInventoriesSubtitle": "Recently updated collections.",
+    "topInventoriesTitle": "Top inventories",
+    "topInventoriesSubtitle": "Most populated collections."
+  },
+  "actions": {
+    "save": "Save",
+    "saving": "Saving…",
+    "create": "Create",
+    "clear": "Clear",
+    "open": "Open",
+    "delete": "Delete",
+    "deleting": "Deleting…",
+    "cancel": "Cancel",
+    "creating": "Creating…"
+  },
+  "table": {
+    "title": "Title",
+    "category": "Category",
+    "items": "Items",
+    "updated": "Updated",
+    "owner": "Owner"
+    
+  },
+  "sections": {
+    "latest": {
+      "title": "Latest inventories",
+      "subtitle": "Recently updated collections.."
+    },
+    "top": {
+      "title": "Top inventories",
+      "subtitle": "Most populated collections."
+    },
+    "tags": {
+      "title": "Popular tags",
+      "subtitle": "Browse inventories by category."
+    }
+  },
+  "states": {
+    "loading": "Loading…",
+    "noInventoriesTitle": "No inventories",
+    "noInventoriesDescription": "Create an inventory to get started."
+  },
+  "errors": {
+    "tagsLoadFailed": "Failed to load tags",
+    "inventoriesLoadFailed": "Failed to load inventories",
+    "failedToCreateInventory": "Failed to create inventory",
+    "failedToLoadInventory": "Failed to load inventory",
+    "failedToLoadItem": "Failed to load item",
+    "failedToLoadResults": "Failed to load results",
+    "tryAgainOrCheckServer": "Please try again or check the server."
+  },
+  "validation": {
+    "titleRequired": "Title is required",
+    "categoryRequired": "Category is required"
+  },
+  "inventories": {
+    "toolbarTitle": "Inventories",
+    "toolbarSubtitle": "Select rows to enable actions.",
+    "createPageTitle": "Create Inventory",
+    "createPageSubtitle": "Create a new inventory to organize your items.",
+    "createInventory": "Create inventory",
+    "pageTitle": "Your Inventories",
+    "pageSubtitle": "Organize, manage and scale your collections.",
+    "description": "Description",
+    "publicInventory": "Public inventory",
+    "confirmDeleteTitle": "Delete selected inventories?",
+    "confirmDeleteText": "This action cannot be undone.",
+    "selectedCount": "Selected: {{count}}"
+  },
+  "workspace": {
+    "title": "My Workspace",
+    "subtitle": "Manage your inventories and shared access.",
+    "owned": "Owned",
+    "shared": "Shared",
+    "ownedInventories": "Owned inventories",
+    "writeAccessInventories": "Write access inventories",
+    "writeAccessSubtitle": "You can edit items here, but you don’t own these inventories.",
+    "noOwnedInventories": "No owned inventories",
+    "noWriteAccessInventories": "No write-access inventories"
+  },
+  "categories": {
+    "Equipment": "Equipment",
+    "Furniture": "Furniture",
+    "Book": "Book",
+    "Other": "Other"
+  },
+  "admin": {
+   "title": "Admin Dashboard",
+   "subtitle": "System overview and management. Stats and users list.",
+    "stats": {
+    "users": "Users",
+    "admins": "Admins",
+    "inventories": "Inventories",
+    "items": "Items",
+    "tags": "Tags"
+  },
+    "actions": {
+    "block": "Block",
+    "unblock": "Unblock",
+    "makeAdmin": "Make admin",
+    "removeAdmin": "Remove admin",
+    "delete": "Delete"
+  }
+  },
+
+ "search": {
+    "results": "Results",
+    "resultsFor": "{{count}} result(s) for “{{query}}”",
+    "inventoriesCount": "{{count}} inventories",
+    "itemsCount": "{{count}} items",
+    "tabInventories": "Inventories ({{count}})",
+    "tabItems": "Items ({{count}})",
+    "noInventoriesFound": "No inventories found",
+    "noItemsFound": "No items found",
+    "tryDifferentQuery": "Try a different query.",
+    "tryCustomIdOrInventory": "Try searching by Custom ID or inventory name.",
+    "access": "Access",
+    "public": "Public",
+    "restricted": "Restricted",
+    "customId": "Custom ID",
+    "tip": "Tip: rows are clickable. Actions should be done via toolbars/context menus (no row buttons).",
+    "title": "Search",
+    "subtitle": "Find inventories and items by title, description, tags, or custom ID.",
+    "chipQuery": "q: {{q}}",
+    "chipHint": "Type a query in the header search",
+    "startTitle": "Start searching",
+    "startSubtitle": "Use the search bar in the header. Results will show up here in tables.",
+    "search": "Search",
+    "all": "All",
+    "sort": "Sort",
+    "sortUpdated": "Recently updated",
+    "sortCreated": "Recently created",
+    "sortTitle": "Title (A–Z)",
+    "applyFilters": "Apply filters",
+    "reset": "Reset"
+  },
+    "usersTable": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "active": "Active",
+    "blocked": "Blocked",
+    "failedToLoad": "Failed to load users",
+    "emptyTitle": "No users",
+    "emptyDescription": "No users found."
+  },
+  "itemsTab": {
+    "title": "Items",
+    "subtitle": "Select rows to enable actions.",
+    "createItem": "Create item",
+    "emptyTitle": "No items yet",
+    "emptySubtitle": "Create your first item to start adding data.",
+    "customId": "Custom ID",
+    "version": "Version",
+    "created": "Created",
+    "createDialogTitle": "Create item",
+    "deleteTitle": "Delete selected items?",
+    "deleteText": "This action cannot be undone.",
+    "selectedCount": "Selected: {{count}}",
+    "itemCreated": "Item created",
+    "deleted": "Deleted",
+    "failedToLoad": "Failed to load items",
+    "failedToCreate": "Failed to create item",
+    "failedToDelete": "Failed to delete items"
+  },
+  "access": {
+    "title": "Access Control",
+    "subtitle": "Manage who can view or edit this inventory.",
+    "visibility": "Visibility",
+    "public": "Public",
+    "private": "Private",
+    "publicDescription": "Anyone can view this inventory.",
+    "privateDescription": "Only selected users can access this inventory.",
+    "users": "Users with access",
+    "addUser": "Add user",
+    "noUsers": "No users added.",
+    "addDialogTitle": "Add user access",
+    "userEmail": "User email",
+    "removeTitle": "Remove access?",
+    "removeText": "User will lose access to this inventory.",
+    "granted": "Access granted",
+    "removed": "Access removed",
+    "nowPublic": "Inventory is now public",
+    "nowPrivate": "Inventory is now private"
+},
+"customId": {
+  "title": "Custom ID",
+  "subtitle": "Configure how item IDs are generated.",
+  "addText": "Add text",
+  "addSeq": "Add seq",
+  "addRandom": "Add random",
+  "emptyFormat": "Format is empty. Add at least one part.",
+  "preview": "Preview",
+  "value": "Value",
+  "pad": "Pad",
+  "len": "Len",
+  "saved": "Saved",
+  "conflict": "Conflict: reload inventory and try again"
+ },
+ "discussion": {
+  "title": "Discussion",
+  "failedToLoad": "Failed to load posts",
+  "noPosts": "No posts yet",
+  "writeMessage": "Write a message",
+  "post": "Post",
+  "posting": "Posting…",
+  "posted": "Posted",
+  "failedToPost": "Failed to post"
+ },
+ "fields": {
+  "title": "Custom Fields",
+  "subtitle": "Select rows to enable actions.",
+  "up": "Up",
+  "down": "Down",
+  "addField": "Add field",
+  "emptyTitle": "No fields yet",
+  "emptyDescription": "Add your first field to start structuring items.",
+  "failedToLoad": "Failed to load fields",
+  "created": "Field created",
+  "deleted": "Fields deleted",
+  "orderUpdated": "Order updated",
+  "failedToCreate": "Failed to create field",
+  "failedToDelete": "Failed to delete fields",
+  "failedToReorder": "Failed to reorder fields",
+  "limitReached": "Limit reached for",
+  "type": "Type",
+  "fieldTitle": "Title",
+  "description": "Description",
+  "showInTable": "Show in table",
+  "required": "Required",
+  "optional": "Optional",
+  "visible": "Visible",
+  "hidden": "Hidden",
+  "order": "Order",
+  "types": {
+    "TEXT_SINGLE": "Single line",
+    "TEXT_MULTI": "Multi line",
+    "NUMBER": "Number",
+    "LINK": "Link",
+    "BOOLEAN": "Boolean"
+  }
+},
+ "settings": {
+  "title": "Inventory Settings",
+  "autosave": "Autosave: after 1s of inactivity when fields change.",
+  "inventoryTitle": "Inventory title",
+  "category": "Category",
+  "description": "Description",
+  "public": "Public",
+  "private": "Private",
+  "saveNow": "Save now",
+  "saved": "Saved",
+  "saving": "Saving…",
+  "savedMessage": "Saved",
+  "failedToSave": "Failed to save",
+  "failedToLoad": "Failed to load inventory settings",
+  "dangerZone": "Danger zone",
+  "deleteInventory": "Delete inventory",
+  "deleteTitle": "Delete inventory?",
+  "deleteText": "This action cannot be undone.",
+  "deleting": "Deleting…",
+  "deleted": "Inventory deleted",
+  "failedToDelete": "Failed to delete",
+  "conflict": "Conflict (409). Reload or overwrite.",
+  "conflictTitle": "Conflict detected",
+  "conflictText": "Someone updated this inventory before your save.",
+  "reload": "Reload",
+  "overwrite": "Overwrite",
+  "reloaded": "Reloaded from server",
+  "overwritten": "Overwritten",
+  "reloadFailed": "Failed to reload for overwrite"
+},
+ "stats": {
+  "title": "Statistics",
+  "items": "Items",
+  "fields": "Fields",
+  "lastUpdated": "Last Updated",
+  "activity": "Activity (last 7 days)"
+},
+ "item": {
+  "likesComingSoon": "Likes — coming soon",
+  "title": "Item {{id}}",
+  "inventoryLabel": "Inventory",
+  "itemId": "Item ID",
+  "engagement": "Engagement",
+  "like": "Like",
+  "unlike": "Unlike",
+  "likesUpdating": "Updating…",
+  "likesFailed": "Failed to load likes",
+  "likesCount_one": "{{count}} like",
+  "likesCount_other": "{{count}} likes"
+}
+}
