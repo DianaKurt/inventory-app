@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
+    "@types/ws": "^8.18.1",
     "concurrently": "^8.2.2",
     "depcheck": "^1.4.7",
     "eslint": "^9.36.0",
