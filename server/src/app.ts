@@ -13,10 +13,8 @@ import { debugHttp } from './middleware/debug-http.middleware'
 const ALLOWED_ORIGINS = new Set(
   [
     env.CLIENT_ORIGIN,
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'http://localhost:5555',
-    'http://127.0.0.1:5555',
+    'https://inventory-app-client-alpha.vercel.app',
+    'http://localhost:5173'
   ].filter(Boolean),
 )
 
