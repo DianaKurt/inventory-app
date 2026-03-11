@@ -14,7 +14,7 @@ Users can:
 # Live Demo
 
 Frontend:
-`https://inventory-app-client-alpha.vercel.app/`
+`https://inventory-app-client-alpha.vercel.app`
 
 Backend API:
 `https://inventory-app-t1u6.onrender.com`
@@ -271,14 +271,14 @@ Each inventory contains several items and comments.
 Admin:
 
 ```
-email: admin@local
-password: admin123
+email: d@local
+password: 123456
 ```
 
 User:
 
 ```
-email: Kola@local
+email: kola@local
 password: 123456
 ```
 
