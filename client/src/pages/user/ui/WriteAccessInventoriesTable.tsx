@@ -65,7 +65,7 @@ export default function WriteAccessInventoriesTable() {
       sx={(theme) => ({
         p: 1.5,
         mb: 1.5,
-        borderRadius: 3,
+        borderRadius: 2,
         border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
         background: alpha(theme.palette.background.default, 0.55),
       })}
