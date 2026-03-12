@@ -15,11 +15,8 @@ import ItemPage from '@/pages/item/ItemPage'
 import CreateInventoryPage from '@/pages/inventories/CreateInventoryPage'
 import AdminDashboard from '@/pages/admin/AdminDashboard'
 
-
-
-
 export const router = createBrowserRouter([
-  // AUTH - without RootLayout
+  // AUTH pages
   {
     element: <AuthLayout />,
     children: [
@@ -29,23 +26,36 @@ export const router = createBrowserRouter([
     ],
   },
 
-  //  Header/Footer
   {
     element: <RootLayout />,
     children: [
-      { path: '/', element: <HomePage /> },
-  
-      { path: '/search', element: <SearchPage /> },
-  
-      { 
-        path: '/admin',
+      {
+        path: '/',
         element: (
-         <RequireAdmin>
-          <AdminDashboard />
-        </RequireAdmin>
+          <RequireAuth>
+            <HomePage />
+          </RequireAuth>
         ),
       },
-  
+
+      {
+        path: '/search',
+        element: (
+          <RequireAuth>
+            <SearchPage />
+          </RequireAuth>
+        ),
+      },
+
+      {
+        path: '/admin',
+        element: (
+          <RequireAdmin>
+            <AdminDashboard />
+          </RequireAdmin>
+        ),
+      },
+
       {
         path: '/inventories',
         element: (
@@ -54,7 +64,7 @@ export const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
-  
+
       {
         path: '/user',
         element: (
@@ -63,7 +73,16 @@ export const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
-  
+
+      {
+        path: '/inventories/new',
+        element: (
+          <RequireAuth>
+            <CreateInventoryPage />
+          </RequireAuth>
+        ),
+      },
+
       {
         path: '/inventories/:inventoryId',
         element: (
@@ -72,15 +91,7 @@ export const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
-      {
-        path: '/inventories/new',
-        element: (
-          <RequireAuth>
-           <CreateInventoryPage />
-         </RequireAuth>
-        ),
-      },
-  
+
       {
         path: '/inventories/:inventoryId/items/:itemId',
         element: (
@@ -90,5 +101,10 @@ export const router = createBrowserRouter([
         ),
       },
     ],
+  },
+
+  {
+    path: '*',
+    element: <Navigate to="/auth/sign-in" replace />,
   },
 ])
