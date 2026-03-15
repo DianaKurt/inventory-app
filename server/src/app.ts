@@ -47,6 +47,8 @@ export function createApp() {
 
   app.use(
     session({
+      name: 'sid',
+      proxy: true,
       store: new PgSession({
         pool: pgPool,
         tableName: 'user_sessions',
