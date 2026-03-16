@@ -15,7 +15,6 @@ import InventoryHeader from './ui/InventoryHeader'
 import InventoryTabs from './ui/InventoryTabs'
 import { useTranslation } from 'react-i18next'
 
-// Tabs
 import ItemsTab from './tabs/items-tab'
 import FieldsTab from './tabs/fields-tab'
 import DiscussionTab from './tabs/discussion-tab'
@@ -106,15 +105,11 @@ export default function InventoryPage() {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         minHeight: '100vh',
         py: { xs: 3, md: 5 },
-        background: `
-          radial-gradient(circle at 12% 0%, ${alpha(theme.palette.primary.main, 0.12)}, transparent 45%),
-          radial-gradient(circle at 88% 0%, ${alpha(theme.palette.secondary.main, 0.12)}, transparent 50%),
-          linear-gradient(to bottom, ${alpha(theme.palette.background.default, 1)}, ${alpha(theme.palette.background.default, 0.94)} 50%, ${alpha(theme.palette.background.default, 1)})
-        `,
-      })}
+        backgroundColor: 'background.paper',
+      }}
     >
       <Container maxWidth="lg">
         <Stack spacing={2.5}>
@@ -130,9 +125,8 @@ export default function InventoryPage() {
               borderRadius: 4,
               border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
               overflow: 'hidden',
-              backgroundColor: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(10px)',
-              boxShadow: '0 18px 50px rgba(0,0,0,0.05)',
+              backgroundColor: theme.palette.background.paper,
+              boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
             })}
           >
             <Box
@@ -141,7 +135,7 @@ export default function InventoryPage() {
                 pt: { xs: 1.5, md: 2 },
                 pb: 1,
                 borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-                background: `linear-gradient(to bottom, ${alpha(theme.palette.primary.main, 0.03)}, transparent)`,
+                backgroundColor: theme.palette.background.paper,
               })}
             >
               <InventoryTabs disabled={disabled} />

@@ -63,7 +63,7 @@ export const appTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: '#ffffff',
-          color: '#0f172a',
+          color: '#ffffff',
         },
       },
     },
