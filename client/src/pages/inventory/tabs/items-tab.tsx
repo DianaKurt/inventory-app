@@ -277,7 +277,7 @@ export default function ItemsTab() {
             <Paper
               elevation={0}
               sx={(theme) => ({
-                borderRadius: 3,
+                borderRadius: 2,
                 overflow: 'hidden',
                 border: `1px solid ${theme.palette.divider}`,
                 backgroundColor: alpha(theme.palette.background.paper, 0.95),

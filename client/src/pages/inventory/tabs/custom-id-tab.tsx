@@ -163,7 +163,7 @@ export default function CustomIdTab() {
             p: { xs: 2, md: 3 },
             borderRadius: 4,
             border: `1px solid ${theme.palette.divider}`,
-            backgroundColor: alpha(theme.palette.background.paper, 0.92),
+            backgroundColor: theme.palette.background.paper,
             boxShadow: '0 14px 36px rgba(0,0,0,0.04)',
           })}
         >
@@ -244,7 +244,7 @@ export default function CustomIdTab() {
                       p: 2,
                       borderRadius: 3,
                       border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-                      backgroundColor: alpha(theme.palette.background.default, 0.55),
+                      backgroundColor: theme.palette.background.default,
                       transition: 'transform .16s ease, box-shadow .16s ease',
                       '&:hover': {
                         transform: 'translateY(-1px)',
@@ -325,7 +325,7 @@ export default function CustomIdTab() {
                           sx={(theme) => ({
                             borderRadius: 2.5,
                             border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-                            backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                            backgroundColor: theme.palette.background.paper,
                             '&:hover': {
                               backgroundColor: theme.palette.action.hover,
                             },
