@@ -131,11 +131,7 @@ export default function ItemsTab() {
 
   const openSelected = () => {
     if (!inventoryId) return
-    if (selectedIds.length === 1) {
-      navigate(`/inventories/${inventoryId}/items/${selectedIds[0]}`)
-      return
-    }
-    if (selectedIds.length > 1) {
+    if (selectedIds.length >= 1) {
       navigate(`/inventories/${inventoryId}/items/${selectedIds[0]}`)
     }
   }
@@ -144,9 +140,9 @@ export default function ItemsTab() {
     return (
       <Box p={3}>
         <Stack spacing={2}>
-          <Skeleton variant="rounded" height={44} width={220} />
-          <Skeleton variant="rounded" height={80} />
-          <Skeleton variant="rounded" height={260} />
+          <Skeleton variant="rounded" height={40} width={180} />
+          <Skeleton variant="rounded" height={72} />
+          <Skeleton variant="rounded" height={220} />
         </Stack>
       </Box>
     )
@@ -163,25 +159,15 @@ export default function ItemsTab() {
   return (
     <Fade in timeout={200}>
       <Box p={{ xs: 2, md: 3 }}>
-        <Paper
-          elevation={0}
-          sx={(theme) => ({
-            p: 2,
-            mb: 2,
-            borderRadius: 4,
-            border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-            background: alpha(theme.palette.background.paper, 0.86),
-            backdropFilter: 'blur(8px)',
-            boxShadow: '0 12px 30px rgba(0,0,0,0.04)',
-          })}
-        >
+        <Stack spacing={2.5}>
+          {/* Header */}
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
-            alignItems={{ xs: 'stretch', sm: 'center' }}
-            spacing={1.5}
+            alignItems={{ xs: 'flex-start', sm: 'center' }}
+            spacing={2}
           >
-            <Stack spacing={0.3}>
+            <Stack spacing={0.5}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Box
                   sx={(theme) => ({
@@ -191,14 +177,14 @@ export default function ItemsTab() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: alpha(theme.palette.primary.main, 0.12),
+                    backgroundColor: alpha(theme.palette.primary.main, 0.1),
                     color: theme.palette.primary.main,
                   })}
                 >
                   <Inventory2RoundedIcon fontSize="small" />
                 </Box>
 
-                <Typography variant="h5" fontWeight={800}>
+                <Typography variant="h5" fontWeight={700}>
                   {t('itemsTab.title')}
                 </Typography>
               </Stack>
@@ -208,42 +194,31 @@ export default function ItemsTab() {
               </Typography>
             </Stack>
 
-            <Stack direction="row" spacing={1} justifyContent="flex-end" flexWrap="wrap" useFlexGap>
-              {selectedCount > 0 && (
-                <Button
-                  variant="text"
-                  onClick={clearSelection}
-                  startIcon={<ClearAllRoundedIcon />}
-                  sx={{
-                    borderRadius: 999,
-                    textTransform: 'none',
-                    fontWeight: 700,
-                    px: 1.75,
-                  }}
-                >
-                  {t('actions.clear')} ({selectedCount})
-                </Button>
-              )}
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+              <Button
+                variant="text"
+                disabled={selectedCount === 0}
+                onClick={clearSelection}
+                startIcon={<ClearAllRoundedIcon />}
+                sx={{
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  borderRadius: 2.5,
+                }}
+              >
+                {t('actions.clear')} ({selectedCount})
+              </Button>
 
               <Button
                 variant="outlined"
                 startIcon={<OpenInNewRoundedIcon />}
                 disabled={selectedCount === 0}
                 onClick={openSelected}
-                sx={(theme) => ({
-                  borderRadius: 999,
+                sx={{
                   textTransform: 'none',
-                  fontWeight: 700,
-                  px: 2.2,
-                  borderColor: alpha(theme.palette.info.main, 0.28),
-                  color: theme.palette.info.dark,
-                  backgroundColor: alpha(theme.palette.info.main, 0.05),
-                  '&:hover': {
-                    borderColor: alpha(theme.palette.info.main, 0.5),
-                    backgroundColor: alpha(theme.palette.info.main, 0.1),
-                    transform: 'translateY(-1px)',
-                  },
-                })}
+                  fontWeight: 600,
+                  borderRadius: 2.5,
+                }}
               >
                 {t('actions.open')}
               </Button>
@@ -254,18 +229,11 @@ export default function ItemsTab() {
                 startIcon={<DeleteRoundedIcon />}
                 disabled={selectedCount === 0}
                 onClick={() => setConfirmDelete(true)}
-                sx={(theme) => ({
-                  borderRadius: 999,
+                sx={{
                   textTransform: 'none',
-                  fontWeight: 800,
-                  px: 2.2,
-                  borderWidth: 1.5,
-                  backgroundColor: alpha(theme.palette.error.main, 0.05),
-                  '&:hover': {
-                    backgroundColor: alpha(theme.palette.error.main, 0.1),
-                    transform: 'translateY(-1px)',
-                  },
-                })}
+                  fontWeight: 600,
+                  borderRadius: 2.5,
+                }}
               >
                 {t('actions.delete')}
               </Button>
@@ -274,128 +242,130 @@ export default function ItemsTab() {
                 variant="contained"
                 startIcon={<AddRoundedIcon />}
                 onClick={() => setOpenCreate(true)}
-                sx={(theme) => ({
-                  borderRadius: 999,
+                sx={{
                   textTransform: 'none',
-                  fontWeight: 800,
-                  px: 2.5,
-                  background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-                  boxShadow: '0 10px 24px rgba(0,0,0,0.12)',
-                  '&:hover': {
-                    transform: 'translateY(-1px)',
-                    boxShadow: '0 14px 30px rgba(0,0,0,0.16)',
-                  },
-                })}
+                  fontWeight: 600,
+                  borderRadius: 2.5,
+                  boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+                }}
               >
                 {t('itemsTab.createItem')}
               </Button>
             </Stack>
           </Stack>
-        </Paper>
 
-        {items.length === 0 ? (
-          <Paper
-            elevation={0}
-            sx={(theme) => ({
-              p: 6,
-              textAlign: 'center',
-              borderRadius: 4,
-              border: `1px dashed ${theme.palette.divider}`,
-              backgroundColor: alpha(theme.palette.background.paper, 0.7),
-            })}
-          >
-            <Typography fontWeight={800}>{t('itemsTab.emptyTitle')}</Typography>
-            <Typography variant="body2" color="text.secondary">
-              {t('itemsTab.emptySubtitle')}
-            </Typography>
-          </Paper>
-        ) : (
-          <Paper
-            elevation={0}
-            sx={(theme) => ({
-              borderRadius: 4,
-              overflow: 'hidden',
-              border: `1px solid ${theme.palette.divider}`,
-              backgroundColor: alpha(theme.palette.background.paper, 0.92),
-              boxShadow: '0 10px 28px rgba(0,0,0,0.04)',
-            })}
-          >
-            <Table>
-              <TableHead>
-                <TableRow
-                  sx={(theme) => ({
-                    backgroundColor: alpha(theme.palette.action.hover, 0.55),
-                  })}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={allSelected}
-                      indeterminate={someSelected}
-                      onChange={toggleAll}
-                    />
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: 800 }}>{t('itemsTab.customId')}</TableCell>
-                  <TableCell sx={{ fontWeight: 800 }}>{t('itemsTab.version')}</TableCell>
-                  <TableCell sx={{ fontWeight: 800 }}>{t('itemsTab.created')}</TableCell>
-                </TableRow>
-              </TableHead>
+          {/* Table / empty */}
+          {items.length === 0 ? (
+            <Paper
+              elevation={0}
+              sx={{
+                p: 6,
+                textAlign: 'center',
+                borderRadius: 3,
+                border: '1px dashed',
+                borderColor: 'divider',
+              }}
+            >
+              <Typography fontWeight={600}>
+                {t('itemsTab.emptyTitle')}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {t('itemsTab.emptySubtitle')}
+              </Typography>
+            </Paper>
+          ) : (
+            <Paper
+              elevation={0}
+              sx={(theme) => ({
+                borderRadius: 3,
+                overflow: 'hidden',
+                border: `1px solid ${theme.palette.divider}`,
+                backgroundColor: alpha(theme.palette.background.paper, 0.95),
+              })}
+            >
+              <Table>
+                <TableHead>
+                  <TableRow
+                    sx={(theme) => ({
+                      backgroundColor: alpha(theme.palette.action.hover, 0.4),
+                    })}
+                  >
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={allSelected}
+                        indeterminate={someSelected}
+                        onChange={toggleAll}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>
+                      {t('itemsTab.customId')}
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>
+                      {t('itemsTab.version')}
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>
+                      {t('itemsTab.created')}
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
 
-              <TableBody>
-                {items.map((item) => {
-                  const checked = selected.has(item.id)
-                  return (
-                    <TableRow
-                      key={item.id}
-                      hover
-                      sx={(theme) => ({
-                        cursor: 'pointer',
-                        transition: 'background-color .15s ease',
-                        '&:hover': {
-                          backgroundColor: alpha(theme.palette.primary.main, 0.04),
-                        },
-                      })}
-                      onClick={() =>
-                        inventoryId &&
-                        navigate(`/inventories/${inventoryId}/items/${item.id}`)
-                      }
-                    >
-                      <TableCell
-                        padding="checkbox"
-                        onClick={(e) => e.stopPropagation()}
+                <TableBody>
+                  {items.map((item) => {
+                    const checked = selected.has(item.id)
+
+                    return (
+                      <TableRow
+                        key={item.id}
+                        hover
+                        sx={{
+                          cursor: 'pointer',
+                          transition: 'background-color .15s ease',
+                        }}
+                        onClick={() =>
+                          inventoryId &&
+                          navigate(`/inventories/${inventoryId}/items/${item.id}`)
+                        }
                       >
-                        <Checkbox
-                          checked={checked}
-                          onChange={() => toggleOne(item.id)}
-                        />
-                      </TableCell>
+                        <TableCell
+                          padding="checkbox"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Checkbox
+                            checked={checked}
+                            onChange={() => toggleOne(item.id)}
+                          />
+                        </TableCell>
 
-                      <TableCell>
-                        <Chip
-                          label={item.customId}
-                          variant="outlined"
-                          sx={{ borderRadius: 999, fontWeight: 700 }}
-                        />
-                      </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={item.customId}
+                            size="small"
+                            variant="outlined"
+                            sx={{ fontWeight: 600 }}
+                          />
+                        </TableCell>
 
-                      <TableCell>
-                        <Chip
-                          label={`v${item.version}`}
-                          size="small"
-                          sx={{ borderRadius: 999, fontWeight: 700 }}
-                        />
-                      </TableCell>
+                        <TableCell>
+                          <Chip
+                            label={`v${item.version}`}
+                            size="small"
+                            sx={{ fontWeight: 600 }}
+                          />
+                        </TableCell>
 
-                      <TableCell>
-                        {new Date(item.createdAt).toLocaleDateString()}
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </Paper>
-        )}
+                        <TableCell>
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </TableBody>
+              </Table>
+            </Paper>
+          )}
+        </Stack>
 
+        {/* Create dialog */}
         <Dialog open={openCreate} onClose={() => setOpenCreate(false)} fullWidth maxWidth="sm">
           <DialogTitle>{t('itemsTab.createDialogTitle')}</DialogTitle>
           <DialogContent sx={{ pt: 2 }}>
@@ -407,23 +377,21 @@ export default function ItemsTab() {
             />
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={() => setOpenCreate(false)}
-              sx={{ textTransform: 'none', borderRadius: 999 }}
-            >
+            <Button onClick={() => setOpenCreate(false)} sx={{ textTransform: 'none' }}>
               {t('actions.cancel')}
             </Button>
             <Button
               variant="contained"
-              disabled={createItem.isPending}
+              disabled={createItem.isPending || !customId.trim()}
               onClick={() => createItem.mutate()}
-              sx={{ textTransform: 'none', borderRadius: 999, fontWeight: 700 }}
+              sx={{ textTransform: 'none', fontWeight: 600 }}
             >
               {createItem.isPending ? t('actions.creating') : t('actions.create')}
             </Button>
           </DialogActions>
         </Dialog>
 
+        {/* Delete dialog */}
         <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
           <DialogTitle>{t('itemsTab.deleteTitle')}</DialogTitle>
           <DialogContent>
@@ -433,10 +401,7 @@ export default function ItemsTab() {
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={() => setConfirmDelete(false)}
-              sx={{ textTransform: 'none', borderRadius: 999 }}
-            >
+            <Button onClick={() => setConfirmDelete(false)} sx={{ textTransform: 'none' }}>
               {t('actions.cancel')}
             </Button>
             <Button
@@ -444,24 +409,21 @@ export default function ItemsTab() {
               variant="contained"
               disabled={deleteItems.isPending}
               onClick={() => deleteItems.mutate(selectedIds)}
-              sx={{ textTransform: 'none', borderRadius: 999, fontWeight: 700 }}
+              sx={{ textTransform: 'none', fontWeight: 600 }}
             >
               {deleteItems.isPending ? t('actions.deleting') : t('actions.delete')}
             </Button>
           </DialogActions>
         </Dialog>
 
+        {/* Toast */}
         <Snackbar
           open={Boolean(toast)}
           autoHideDuration={3000}
           onClose={() => setToast(null)}
           message={toast}
           action={
-            <IconButton
-              size="small"
-              color="inherit"
-              onClick={() => setToast(null)}
-            >
+            <IconButton size="small" color="inherit" onClick={() => setToast(null)}>
               <CloseRoundedIcon fontSize="small" />
             </IconButton>
           }
