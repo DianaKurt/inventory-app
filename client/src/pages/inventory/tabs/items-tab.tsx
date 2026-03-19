@@ -138,7 +138,7 @@ export default function ItemsTab() {
 
   if (isLoading) {
     return (
-      <Box p={3}>
+      <Box p={{ xs: 2, md: 3 }}>
         <Stack spacing={2}>
           <Skeleton variant="rounded" height={40} width={180} />
           <Skeleton variant="rounded" height={72} />
@@ -150,7 +150,7 @@ export default function ItemsTab() {
 
   if (isError) {
     return (
-      <Box p={3}>
+      <Box p={{ xs: 2, md: 3 }}>
         <Alert severity="error">{t('itemsTab.failedToLoad')}</Alert>
       </Box>
     )
@@ -162,12 +162,12 @@ export default function ItemsTab() {
         <Stack spacing={2.5}>
           {/* Header */}
           <Stack
-            direction={{ xs: 'column', sm: 'row' }}
+            direction={{ xs: 'column', lg: 'row' }}
             justifyContent="space-between"
-            alignItems={{ xs: 'flex-start', sm: 'center' }}
+            alignItems={{ xs: 'stretch', lg: 'center' }}
             spacing={2}
           >
-            <Stack spacing={0.5}>
+            <Stack spacing={0.5} sx={{ minWidth: 0 }}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Box
                   sx={(theme) => ({
@@ -179,31 +179,56 @@ export default function ItemsTab() {
                     justifyContent: 'center',
                     backgroundColor: alpha(theme.palette.primary.main, 0.1),
                     color: theme.palette.primary.main,
+                    flexShrink: 0,
                   })}
                 >
                   <Inventory2RoundedIcon fontSize="small" />
                 </Box>
 
-                <Typography variant="h5" fontWeight={700}>
+                <Typography
+                  variant="h5"
+                  fontWeight={700}
+                  sx={{
+                    fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                    lineHeight: 1.2,
+                    wordBreak: 'break-word',
+                  }}
+                >
                   {t('itemsTab.title')}
                 </Typography>
               </Stack>
 
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ maxWidth: 560 }}
+              >
                 {t('itemsTab.subtitle')}
               </Typography>
             </Stack>
 
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            {/* Actions */}
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1}
+              useFlexGap
+              flexWrap="wrap"
+              justifyContent={{ xs: 'stretch', sm: 'flex-start', lg: 'flex-end' }}
+              alignItems={{ xs: 'stretch', sm: 'center' }}
+              sx={{ width: { xs: '100%', lg: 'auto' } }}
+            >
               <Button
                 variant="text"
                 disabled={selectedCount === 0}
                 onClick={clearSelection}
                 startIcon={<ClearAllRoundedIcon />}
+                fullWidth={false}
                 sx={{
                   textTransform: 'none',
                   fontWeight: 600,
                   borderRadius: 2.5,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                 }}
               >
                 {t('actions.clear')} ({selectedCount})
@@ -218,6 +243,8 @@ export default function ItemsTab() {
                   textTransform: 'none',
                   fontWeight: 600,
                   borderRadius: 2.5,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                 }}
               >
                 {t('actions.open')}
@@ -233,6 +260,8 @@ export default function ItemsTab() {
                   textTransform: 'none',
                   fontWeight: 600,
                   borderRadius: 2.5,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                 }}
               >
                 {t('actions.delete')}
@@ -247,6 +276,8 @@ export default function ItemsTab() {
                   fontWeight: 600,
                   borderRadius: 2.5,
                   boxShadow: '0 6px 18px rgba(0,0,0,0.08)',
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                 }}
               >
                 {t('itemsTab.createItem')}
@@ -259,7 +290,7 @@ export default function ItemsTab() {
             <Paper
               elevation={0}
               sx={{
-                p: 6,
+                p: { xs: 3, md: 6 },
                 textAlign: 'center',
                 borderRadius: 3,
                 border: '1px dashed',
@@ -278,12 +309,12 @@ export default function ItemsTab() {
               elevation={0}
               sx={(theme) => ({
                 borderRadius: 2,
-                overflow: 'hidden',
+                overflowX: 'auto',
                 border: `1px solid ${theme.palette.divider}`,
                 backgroundColor: alpha(theme.palette.background.paper, 0.95),
               })}
             >
-              <Table>
+              <Table sx={{ minWidth: 560 }}>
                 <TableHead>
                   <TableRow
                     sx={(theme) => ({
@@ -366,7 +397,12 @@ export default function ItemsTab() {
         </Stack>
 
         {/* Create dialog */}
-        <Dialog open={openCreate} onClose={() => setOpenCreate(false)} fullWidth maxWidth="sm">
+        <Dialog
+          open={openCreate}
+          onClose={() => setOpenCreate(false)}
+          fullWidth
+          maxWidth="sm"
+        >
           <DialogTitle>{t('itemsTab.createDialogTitle')}</DialogTitle>
           <DialogContent sx={{ pt: 2 }}>
             <TextField
@@ -376,15 +412,33 @@ export default function ItemsTab() {
               fullWidth
             />
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenCreate(false)} sx={{ textTransform: 'none' }}>
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              px: 3,
+              pb: 2,
+              gap: 1,
+            }}
+          >
+            <Button
+              onClick={() => setOpenCreate(false)}
+              sx={{
+                textTransform: 'none',
+                width: { xs: '100%', sm: 'auto' },
+              }}
+            >
               {t('actions.cancel')}
             </Button>
             <Button
               variant="contained"
               disabled={createItem.isPending || !customId.trim()}
               onClick={() => createItem.mutate()}
-              sx={{ textTransform: 'none', fontWeight: 600 }}
+              sx={{
+                textTransform: 'none',
+                fontWeight: 600,
+                width: { xs: '100%', sm: 'auto' },
+              }}
             >
               {createItem.isPending ? t('actions.creating') : t('actions.create')}
             </Button>
@@ -400,8 +454,22 @@ export default function ItemsTab() {
               {t('itemsTab.selectedCount', { count: selectedCount })}
             </Typography>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setConfirmDelete(false)} sx={{ textTransform: 'none' }}>
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              px: 3,
+              pb: 2,
+              gap: 1,
+            }}
+          >
+            <Button
+              onClick={() => setConfirmDelete(false)}
+              sx={{
+                textTransform: 'none',
+                width: { xs: '100%', sm: 'auto' },
+              }}
+            >
               {t('actions.cancel')}
             </Button>
             <Button
@@ -409,7 +477,11 @@ export default function ItemsTab() {
               variant="contained"
               disabled={deleteItems.isPending}
               onClick={() => deleteItems.mutate(selectedIds)}
-              sx={{ textTransform: 'none', fontWeight: 600 }}
+              sx={{
+                textTransform: 'none',
+                fontWeight: 600,
+                width: { xs: '100%', sm: 'auto' },
+              }}
             >
               {deleteItems.isPending ? t('actions.deleting') : t('actions.delete')}
             </Button>

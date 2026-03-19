@@ -29,10 +29,17 @@ export default function ItemLikes() {
     return (
       <Panel>
         <Stack spacing={0.5}>
-          <Typography variant="caption" color="text.secondary">
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+          >
             {t('item.engagement')}
           </Typography>
-          <Typography variant="body1">{t('common.loading')}</Typography>
+
+          <Typography variant="body1">
+            {t('common.loading')}
+          </Typography>
         </Stack>
       </Panel>
     )
@@ -49,11 +56,19 @@ export default function ItemLikes() {
   return (
     <Panel>
       <Stack spacing={1}>
-        <Typography variant="caption" color="text.secondary">
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          sx={{ fontSize: { xs: '0.7rem', sm: '0.75rem' } }}
+        >
           {t('item.engagement')}
         </Typography>
 
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={1}
+          alignItems={{ xs: 'stretch', sm: 'center' }}
+        >
           <Button
             variant={data.likedByMe ? 'contained' : 'outlined'}
             startIcon={
@@ -61,16 +76,25 @@ export default function ItemLikes() {
             }
             onClick={() => toggleMutation.mutate()}
             disabled={toggleMutation.isPending}
-            sx={{ textTransform: 'none', borderRadius: 3 }}
+            sx={{
+              textTransform: 'none',
+              borderRadius: 3,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'center', sm: 'center' },
+            }}
           >
             {toggleMutation.isPending
               ? t('item.likesUpdating')
               : data.likedByMe
-              ? t('item.unlike')
-              : t('item.like')}
+                ? t('item.unlike')
+                : t('item.like')}
           </Button>
 
-          <Typography variant="body2" color="text.secondary">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ wordBreak: 'break-word' }}
+          >
             {t('item.likesCount', { count: data.count })}
           </Typography>
         </Stack>

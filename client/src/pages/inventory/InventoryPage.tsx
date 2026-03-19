@@ -107,12 +107,12 @@ export default function InventoryPage() {
     <Box
       sx={{
         minHeight: '100vh',
-        py: { xs: 3, md: 5 },
+        py: { xs: 2, md: 5 },
         backgroundColor: 'background.paper',
       }}
     >
       <Container maxWidth="lg">
-        <Stack spacing={2.5}>
+        <Stack spacing={{ xs: 2, md: 2.5 }}>
           <InventoryHeader
             inventory={data ? { ...data, category: data.category ?? '—' } : null}
             loading={isLoading}

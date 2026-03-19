@@ -44,7 +44,11 @@ export default function SettingsTab() {
   const navigate = useNavigate()
   const qc = useQueryClient()
 
-  const [toast, setToast] = useState<{ msg: string; kind: 'success' | 'error' | 'info' } | null>(null)
+  const [toast, setToast] = useState<{
+    msg: string
+    kind: 'success' | 'error' | 'info'
+  } | null>(null)
+
   const [openDelete, setOpenDelete] = useState(false)
   const [conflictOpen, setConflictOpen] = useState(false)
 
@@ -69,9 +73,7 @@ export default function SettingsTab() {
     setVersion(data.version)
   }, [data?.id, data?.version])
 
-  const isValid =
-    title.trim().length > 0 &&
-    category.trim().length > 0
+  const isValid = title.trim().length > 0 && category.trim().length > 0
 
   const dirty = useMemo(() => {
     if (!data) return false
@@ -117,7 +119,6 @@ export default function SettingsTab() {
           msg: t('settings.conflict'),
           kind: 'info',
         })
-
         return
       }
 
@@ -229,9 +230,7 @@ export default function SettingsTab() {
   if (isError || !data) {
     return (
       <Panel>
-        <Alert severity="error">
-          {t('settings.failedToLoad')}
-        </Alert>
+        <Alert severity="error">{t('settings.failedToLoad')}</Alert>
       </Panel>
     )
   }
@@ -240,7 +239,15 @@ export default function SettingsTab() {
     <Panel>
       <Stack spacing={3}>
         <Stack spacing={0.5}>
-          <Typography variant="h6" fontWeight={800}>
+          <Typography
+            variant="h6"
+            fontWeight={800}
+            sx={{
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              lineHeight: 1.2,
+              wordBreak: 'break-word',
+            }}
+          >
             {t('settings.title')}
           </Typography>
 
@@ -249,13 +256,14 @@ export default function SettingsTab() {
           </Typography>
         </Stack>
 
+        {/* Main settings */}
         <Paper
           elevation={0}
           sx={(theme) => ({
             p: { xs: 2, md: 3 },
             borderRadius: 4,
             border: `1px solid ${theme.palette.divider}`,
-            backgroundColor: alpha(theme.palette.background.paper, 0.92),
+            backgroundColor: theme.palette.background.paper,
             boxShadow: '0 14px 36px rgba(0,0,0,0.04)',
           })}
         >
@@ -290,7 +298,7 @@ export default function SettingsTab() {
                 p: 2,
                 borderRadius: 3,
                 border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-                backgroundColor: alpha(theme.palette.background.default, 0.55),
+                backgroundColor: theme.palette.background.default,
               })}
             >
               <FormControlLabel
@@ -301,10 +309,20 @@ export default function SettingsTab() {
                   />
                 }
                 label={isPublic ? t('settings.public') : t('settings.private')}
+                sx={{
+                  alignItems: 'flex-start',
+                  m: 0,
+                }}
               />
             </Box>
 
-            <Stack direction="row" spacing={1.25} flexWrap="wrap" useFlexGap>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1.25}
+              useFlexGap
+              flexWrap="wrap"
+              alignItems={{ xs: 'stretch', sm: 'center' }}
+            >
               <Button
                 variant="contained"
                 startIcon={<SaveRoundedIcon />}
@@ -316,6 +334,8 @@ export default function SettingsTab() {
                   fontWeight: 800,
                   px: 3,
                   py: 1,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'center', sm: 'center' },
                   background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
                   boxShadow: '0 12px 28px rgba(0,0,0,0.12)',
                   '&:hover': {
@@ -326,29 +346,42 @@ export default function SettingsTab() {
                 {save.isPending
                   ? t('settings.saving')
                   : dirty
-                  ? t('settings.saveNow')
-                  : t('settings.saved')}
+                    ? t('settings.saveNow')
+                    : t('settings.saved')}
               </Button>
             </Stack>
           </Stack>
         </Paper>
 
+        {/* Danger zone */}
         <Paper
           elevation={0}
           sx={(theme) => ({
             p: { xs: 2, md: 3 },
             borderRadius: 4,
             border: `1px solid ${alpha(theme.palette.error.main, 0.28)}`,
-            background: theme.palette.mode === 'light'
-              ? `linear-gradient(135deg, ${alpha(theme.palette.error.main, 0.05)}, ${alpha(theme.palette.warning.main, 0.04)})`
-              : alpha(theme.palette.error.main, 0.07),
+            background:
+              theme.palette.mode === 'light'
+                ? `linear-gradient(135deg, ${alpha(theme.palette.error.main, 0.05)}, ${alpha(theme.palette.warning.main, 0.04)})`
+                : alpha(theme.palette.error.main, 0.07),
             boxShadow: '0 10px 26px rgba(0,0,0,0.03)',
           })}
         >
           <Stack spacing={2}>
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              sx={{ minWidth: 0 }}
+            >
               <WarningAmberRoundedIcon color="error" fontSize="small" />
-              <Typography fontWeight={800} color="error.main">
+              <Typography
+                fontWeight={800}
+                color="error.main"
+                sx={{
+                  wordBreak: 'break-word',
+                }}
+              >
                 {t('settings.dangerZone')}
               </Typography>
             </Stack>
@@ -361,7 +394,8 @@ export default function SettingsTab() {
               sx={{
                 borderRadius: 999,
                 textTransform: 'none',
-                alignSelf: 'flex-start',
+                alignSelf: { xs: 'stretch', sm: 'flex-start' },
+                width: { xs: '100%', sm: 'auto' },
                 fontWeight: 800,
                 px: 3,
                 py: 1,
@@ -372,21 +406,30 @@ export default function SettingsTab() {
           </Stack>
         </Paper>
 
-        <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
-          <DialogTitle>
-            {t('settings.deleteTitle')}
-          </DialogTitle>
+        {/* Delete dialog */}
+        <Dialog open={openDelete} onClose={() => setOpenDelete(false)} fullWidth maxWidth="xs">
+          <DialogTitle>{t('settings.deleteTitle')}</DialogTitle>
 
           <DialogContent>
-            <Typography>
-              {t('settings.deleteText')}
-            </Typography>
+            <Typography>{t('settings.deleteText')}</Typography>
           </DialogContent>
 
-          <DialogActions>
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              px: 3,
+              pb: 2,
+              gap: 1,
+            }}
+          >
             <Button
               onClick={() => setOpenDelete(false)}
-              sx={{ textTransform: 'none', borderRadius: 999 }}
+              sx={{
+                textTransform: 'none',
+                borderRadius: 999,
+                width: { xs: '100%', sm: 'auto' },
+              }}
             >
               {t('actions.cancel')}
             </Button>
@@ -396,19 +439,21 @@ export default function SettingsTab() {
               variant="contained"
               disabled={del.isPending}
               onClick={() => del.mutate()}
-              sx={{ textTransform: 'none', borderRadius: 999, fontWeight: 700 }}
+              sx={{
+                textTransform: 'none',
+                borderRadius: 999,
+                fontWeight: 700,
+                width: { xs: '100%', sm: 'auto' },
+              }}
             >
-              {del.isPending
-                ? t('settings.deleting')
-                : t('actions.delete')}
+              {del.isPending ? t('settings.deleting') : t('actions.delete')}
             </Button>
           </DialogActions>
         </Dialog>
 
-        <Dialog open={conflictOpen} onClose={() => setConflictOpen(false)}>
-          <DialogTitle>
-            {t('settings.conflictTitle')}
-          </DialogTitle>
+        {/* Conflict dialog */}
+        <Dialog open={conflictOpen} onClose={() => setConflictOpen(false)} fullWidth maxWidth="sm">
+          <DialogTitle>{t('settings.conflictTitle')}</DialogTitle>
 
           <DialogContent>
             <Typography variant="body2" color="text.secondary">
@@ -416,11 +461,23 @@ export default function SettingsTab() {
             </Typography>
           </DialogContent>
 
-          <DialogActions>
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              px: 3,
+              pb: 2,
+              gap: 1,
+            }}
+          >
             <Button
               onClick={handleReload}
               startIcon={<RefreshRoundedIcon />}
-              sx={{ textTransform: 'none', borderRadius: 999 }}
+              sx={{
+                textTransform: 'none',
+                borderRadius: 999,
+                width: { xs: '100%', sm: 'auto' },
+              }}
             >
               {t('settings.reload')}
             </Button>
@@ -429,13 +486,19 @@ export default function SettingsTab() {
               variant="contained"
               onClick={handleOverwrite}
               startIcon={<PublishedWithChangesRoundedIcon />}
-              sx={{ textTransform: 'none', borderRadius: 999, fontWeight: 700 }}
+              sx={{
+                textTransform: 'none',
+                borderRadius: 999,
+                fontWeight: 700,
+                width: { xs: '100%', sm: 'auto' },
+              }}
             >
               {t('settings.overwrite')}
             </Button>
           </DialogActions>
         </Dialog>
 
+        {/* Toast */}
         <Snackbar open={Boolean(toast)} autoHideDuration={3000} onClose={() => setToast(null)}>
           <Alert severity={toast?.kind ?? 'success'} variant="filled" onClose={() => setToast(null)}>
             {toast?.msg}

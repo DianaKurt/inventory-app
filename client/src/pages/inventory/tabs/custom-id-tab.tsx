@@ -22,6 +22,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import TextFieldsRoundedIcon from '@mui/icons-material/TextFieldsRounded'
 import PinRoundedIcon from '@mui/icons-material/PinRounded'
 import NumbersRoundedIcon from '@mui/icons-material/NumbersRounded'
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { useTranslation } from 'react-i18next'
 import Panel from '@/shared/ui/Panel/Panel'
 import { apiGet, apiPatch } from '@/shared/api/http'
@@ -149,9 +150,18 @@ export default function CustomIdTab() {
     <Panel>
       <Stack spacing={3}>
         <Stack spacing={0.5}>
-          <Typography variant="h6" fontWeight={800}>
+          <Typography
+            variant="h6"
+            fontWeight={800}
+            sx={{
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              lineHeight: 1.2,
+              wordBreak: 'break-word',
+            }}
+          >
             {t('customId.title')}
           </Typography>
+
           <Typography variant="body2" color="text.secondary">
             {t('customId.subtitle')}
           </Typography>
@@ -168,7 +178,14 @@ export default function CustomIdTab() {
           })}
         >
           <Stack spacing={2.5}>
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            {/* Add buttons */}
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1}
+              useFlexGap
+              flexWrap="wrap"
+              alignItems={{ xs: 'stretch', sm: 'center' }}
+            >
               <Button
                 variant="outlined"
                 startIcon={<TextFieldsRoundedIcon />}
@@ -178,6 +195,8 @@ export default function CustomIdTab() {
                   textTransform: 'none',
                   fontWeight: 700,
                   px: 2,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                   borderColor: alpha(theme.palette.primary.main, 0.22),
                   backgroundColor: alpha(theme.palette.primary.main, 0.03),
                   '&:hover': {
@@ -198,6 +217,8 @@ export default function CustomIdTab() {
                   textTransform: 'none',
                   fontWeight: 700,
                   px: 2,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                   borderColor: alpha(theme.palette.secondary.main, 0.22),
                   backgroundColor: alpha(theme.palette.secondary.main, 0.03),
                   '&:hover': {
@@ -218,6 +239,8 @@ export default function CustomIdTab() {
                   textTransform: 'none',
                   fontWeight: 700,
                   px: 2,
+                  width: { xs: '100%', sm: 'auto' },
+                  justifyContent: { xs: 'flex-start', sm: 'center' },
                   borderColor: alpha(theme.palette.success.main, 0.22),
                   backgroundColor: alpha(theme.palette.success.main, 0.03),
                   '&:hover': {
@@ -232,6 +255,7 @@ export default function CustomIdTab() {
 
             <Divider />
 
+            {/* Parts list */}
             <Stack spacing={1.2}>
               {format.length === 0 ? (
                 <Alert severity="info">{t('customId.emptyFormat')}</Alert>
@@ -241,7 +265,7 @@ export default function CustomIdTab() {
                     key={idx}
                     elevation={0}
                     sx={(theme) => ({
-                      p: 2,
+                      p: { xs: 1.5, md: 2 },
                       borderRadius: 3,
                       border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
                       backgroundColor: theme.palette.background.default,
@@ -253,16 +277,27 @@ export default function CustomIdTab() {
                     })}
                   >
                     <Stack
-                      direction={{ xs: 'column', sm: 'row' }}
+                      direction={{ xs: 'column', md: 'row' }}
                       spacing={1.5}
-                      alignItems={{ sm: 'center' }}
+                      alignItems={{ xs: 'stretch', md: 'center' }}
                       justifyContent="space-between"
                     >
-                      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={1}
+                        alignItems={{ xs: 'stretch', sm: 'center' }}
+                        flexWrap="wrap"
+                        useFlexGap
+                        sx={{ minWidth: 0 }}
+                      >
                         <Chip
                           label={p.kind}
                           variant="outlined"
-                          sx={{ borderRadius: 999, fontWeight: 700 }}
+                          sx={{
+                            borderRadius: 999,
+                            fontWeight: 700,
+                            alignSelf: { xs: 'flex-start', sm: 'center' },
+                          }}
                         />
 
                         {p.kind === 'text' && (
@@ -277,6 +312,8 @@ export default function CustomIdTab() {
                                 ),
                               )
                             }
+                            fullWidth
+                            sx={{ width: { xs: '100%', sm: 260 } }}
                           />
                         )}
 
@@ -295,7 +332,7 @@ export default function CustomIdTab() {
                                 ),
                               )
                             }
-                            sx={{ width: 110 }}
+                            sx={{ width: { xs: '100%', sm: 120 } }}
                           />
                         )}
 
@@ -314,12 +351,18 @@ export default function CustomIdTab() {
                                 ),
                               )
                             }
-                            sx={{ width: 110 }}
+                            sx={{ width: { xs: '100%', sm: 120 } }}
                           />
                         )}
                       </Stack>
 
-                      <Stack direction="row" spacing={0.75}>
+                      <Stack
+                        direction="row"
+                        spacing={0.75}
+                        justifyContent={{ xs: 'flex-end', md: 'flex-start' }}
+                        flexWrap="wrap"
+                        useFlexGap
+                      >
                         <IconButton
                           onClick={() => move(idx, -1)}
                           sx={(theme) => ({
@@ -339,7 +382,7 @@ export default function CustomIdTab() {
                           sx={(theme) => ({
                             borderRadius: 2.5,
                             border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-                            backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                            backgroundColor: theme.palette.background.paper,
                             '&:hover': {
                               backgroundColor: theme.palette.action.hover,
                             },
@@ -371,6 +414,7 @@ export default function CustomIdTab() {
 
             <Divider />
 
+            {/* Preview */}
             <Box
               sx={(theme) => ({
                 p: 2,
@@ -386,15 +430,22 @@ export default function CustomIdTab() {
                 <Typography fontWeight={700}>
                   {t('customId.preview')}
                 </Typography>
+
                 <Chip
                   label={example}
                   variant="filled"
                   sx={(theme) => ({
                     alignSelf: 'flex-start',
+                    maxWidth: '100%',
                     borderRadius: 999,
                     fontWeight: 700,
                     px: 0.75,
                     backgroundColor: alpha(theme.palette.background.paper, 0.95),
+                    '& .MuiChip-label': {
+                      display: 'block',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    },
                   })}
                 />
               </Stack>
@@ -408,7 +459,9 @@ export default function CustomIdTab() {
               sx={(theme) => ({
                 borderRadius: 999,
                 textTransform: 'none',
-                alignSelf: 'flex-start',
+                alignSelf: { xs: 'stretch', sm: 'flex-start' },
+                width: { xs: '100%', sm: 'auto' },
+                justifyContent: { xs: 'center', sm: 'center' },
                 fontWeight: 800,
                 px: 3,
                 py: 1,

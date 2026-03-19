@@ -46,11 +46,10 @@ export default function InventoryTabs({ disabled }: { disabled?: boolean }) {
     <Paper
       elevation={0}
       sx={(theme) => ({
-        p: 1,
+        p: { xs: 0.5, sm: 1 },
         borderRadius: 3,
         border: `1px solid ${theme.palette.divider}`,
-        backgroundColor: alpha(theme.palette.background.paper, 0.9),
-        backdropFilter: 'blur(6px)',
+        backgroundColor: theme.palette.background.paper,
         mb: 1,
       })}
     >
@@ -63,26 +62,24 @@ export default function InventoryTabs({ disabled }: { disabled?: boolean }) {
           aria-label="Inventory tabs"
           sx={(theme) => ({
             minHeight: 40,
-
             '& .MuiTabs-indicator': {
               display: 'none',
             },
-
             '& .MuiTab-root': {
               minHeight: 34,
+              minWidth: 'auto',
               textTransform: 'none',
               fontWeight: 600,
               borderRadius: 999,
-              px: 2,
-              mr: 1,
+              px: { xs: 1.25, sm: 2 },
+              mr: { xs: 0.5, sm: 1 },
               color: theme.palette.text.secondary,
               transition: 'all 120ms ease',
+              whiteSpace: 'nowrap',
             },
-
             '& .MuiTab-root:hover': {
               backgroundColor: alpha(theme.palette.action.hover, 0.6),
             },
-
             '& .MuiTab-root.Mui-selected': {
               color: theme.palette.text.primary,
               backgroundColor: theme.palette.action.selected,

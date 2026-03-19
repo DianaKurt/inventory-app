@@ -62,7 +62,7 @@ export default function ItemPage() {
 
   if (isLoading) {
     return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
+      <Container maxWidth="md" sx={{ py: { xs: 2, md: 4 } }}>
         <Skeleton height={40} width={220} />
         <Skeleton height={80} sx={{ mt: 2 }} />
         <Skeleton height={260} sx={{ mt: 2 }} />
@@ -72,7 +72,7 @@ export default function ItemPage() {
 
   if (isError || !data) {
     return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
+      <Container maxWidth="md" sx={{ py: { xs: 2, md: 4 } }}>
         <Alert severity="error">{t('errors.failedToLoadItem')}</Alert>
       </Container>
     )
@@ -80,30 +80,39 @@ export default function ItemPage() {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         minHeight: '100vh',
-        py: 6,
-        background: `linear-gradient(to bottom, ${alpha(
-          theme.palette.primary.main,
-          0.04,
-        )}, transparent 320px)`,
-      })}
+        py: { xs: 2, md: 5 },
+        backgroundColor: 'background.paper',
+      }}
     >
       <Container maxWidth="md">
-        <Stack spacing={2.5}>
+        <Stack spacing={{ xs: 2, md: 2.5 }}>
           {/* Header */}
           <Stack
-            direction="row"
+            direction={{ xs: 'column', sm: 'row' }}
             justifyContent="space-between"
-            alignItems="flex-start"
-            spacing={2}
+            alignItems={{ xs: 'stretch', sm: 'flex-start' }}
+            spacing={1.5}
           >
-            <Stack spacing={0.4}>
-              <Typography variant="h5" fontWeight={850}>
+            <Stack spacing={0.4} sx={{ minWidth: 0 }}>
+              <Typography
+                variant="h5"
+                fontWeight={850}
+                sx={{
+                  fontSize: { xs: '1.2rem', sm: '1.5rem' },
+                  lineHeight: 1.2,
+                  wordBreak: 'break-word',
+                }}
+              >
                 {t('item.title', { id: data.item.customId })}
               </Typography>
 
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ wordBreak: 'break-word' }}
+              >
                 {t('item.inventoryLabel')}: {data.item.inventoryId}
               </Typography>
             </Stack>
@@ -113,7 +122,12 @@ export default function ItemPage() {
               onClick={() =>
                 navigate(`/inventories/${inventoryId ?? data.item.inventoryId}?tab=items`)
               }
-              sx={{ textTransform: 'none', borderRadius: 3 }}
+              sx={{
+                textTransform: 'none',
+                borderRadius: 3,
+                width: { xs: '100%', sm: 'auto' },
+                alignSelf: { xs: 'stretch', sm: 'flex-start' },
+              }}
             >
               {t('common.back')}
             </Button>
@@ -129,8 +143,8 @@ export default function ItemPage() {
               p: { xs: 2, md: 3 },
               borderRadius: 2,
               border: `1px solid ${theme.palette.divider}`,
-              backgroundColor: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(8px)',
+              backgroundColor: theme.palette.background.paper,
+              boxShadow: '0 10px 24px rgba(0,0,0,0.04)',
             })}
           >
             <ItemForm data={data} />

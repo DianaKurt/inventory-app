@@ -77,9 +77,9 @@ export default function OwnedInventoriesTable() {
 
   const bulkDelete = useMutation({
     mutationFn: (ids: string[]) => apiPost('/inventories/bulk-delete', { ids }),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['me', 'inventories', 'owned'] })
-      qc.invalidateQueries({ queryKey: ['inventories'] })
+    onSuccess: async () => {
+      await qc.invalidateQueries({ queryKey: ['me', 'inventories', 'owned'] })
+      await qc.invalidateQueries({ queryKey: ['inventories'] })
       setSelection([])
       setConfirmDelete(false)
     },
@@ -88,7 +88,7 @@ export default function OwnedInventoriesTable() {
   const toolbar = (
     <Box
       sx={(theme) => ({
-        p: 1.5,
+        p: { xs: 1.25, md: 1.5 },
         mb: 1.5,
         borderRadius: 2,
         border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
@@ -96,21 +96,37 @@ export default function OwnedInventoriesTable() {
       })}
     >
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: 'column', lg: 'row' }}
         spacing={1.5}
         justifyContent="space-between"
-        alignItems={{ xs: 'stretch', sm: 'center' }}
+        alignItems={{ xs: 'stretch', lg: 'center' }}
       >
-        <Stack spacing={0.2}>
-          <Typography variant="subtitle1" fontWeight={700}>
+        <Stack spacing={0.2} sx={{ minWidth: 0 }}>
+          <Typography
+            variant="subtitle1"
+            fontWeight={700}
+            sx={{
+              wordBreak: 'break-word',
+              fontSize: { xs: '1rem', sm: '1.05rem' },
+            }}
+          >
             {t('workspace.ownedInventories')}
           </Typography>
+
           <Typography variant="body2" color="text.secondary">
             {t('inventories.toolbarSubtitle')}
           </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" justifyContent="flex-end">
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={1}
+          useFlexGap
+          flexWrap="wrap"
+          justifyContent={{ xs: 'stretch', sm: 'flex-end' }}
+          alignItems={{ xs: 'stretch', sm: 'center' }}
+          sx={{ width: { xs: '100%', lg: 'auto' } }}
+        >
           <Button
             variant="text"
             disabled={selection.length === 0}
@@ -121,6 +137,8 @@ export default function OwnedInventoriesTable() {
               textTransform: 'none',
               fontWeight: 700,
               px: 1.5,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'flex-start', sm: 'center' },
             }}
           >
             {t('actions.clear')} ({selection.length})
@@ -136,6 +154,8 @@ export default function OwnedInventoriesTable() {
               textTransform: 'none',
               fontWeight: 700,
               px: 2,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'flex-start', sm: 'center' },
               borderColor: alpha(theme.palette.info.main, 0.35),
               color: theme.palette.info.dark,
               backgroundColor: alpha(theme.palette.info.main, 0.06),
@@ -160,6 +180,8 @@ export default function OwnedInventoriesTable() {
               textTransform: 'none',
               fontWeight: 800,
               px: 2,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'flex-start', sm: 'center' },
               borderWidth: 1.5,
               backgroundColor: alpha(theme.palette.error.main, 0.05),
               '&:hover': {
@@ -180,6 +202,8 @@ export default function OwnedInventoriesTable() {
               textTransform: 'none',
               fontWeight: 800,
               px: 2.4,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'flex-start', sm: 'center' },
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               boxShadow: '0 10px 24px rgba(0,0,0,0.12)',
               '&:hover': {
@@ -193,21 +217,44 @@ export default function OwnedInventoriesTable() {
         </Stack>
       </Stack>
 
-      <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)}>
+      <Dialog open={confirmDelete} onClose={() => setConfirmDelete(false)} fullWidth maxWidth="xs">
         <DialogTitle>{t('inventories.confirmDeleteTitle')}</DialogTitle>
+
         <DialogContent>
           <Typography>{t('inventories.confirmDeleteText')}</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
             {t('inventories.selectedCount', { count: selection.length })}
           </Typography>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setConfirmDelete(false)}>{t('actions.cancel')}</Button>
+
+        <DialogActions
+          sx={{
+            flexDirection: { xs: 'column', sm: 'row' },
+            alignItems: { xs: 'stretch', sm: 'center' },
+            px: 3,
+            pb: 2,
+            gap: 1,
+          }}
+        >
+          <Button
+            onClick={() => setConfirmDelete(false)}
+            sx={{
+              width: { xs: '100%', sm: 'auto' },
+              textTransform: 'none',
+            }}
+          >
+            {t('actions.cancel')}
+          </Button>
+
           <Button
             color="error"
             variant="contained"
             disabled={bulkDelete.isPending}
             onClick={() => bulkDelete.mutate(selection as string[])}
+            sx={{
+              width: { xs: '100%', sm: 'auto' },
+              textTransform: 'none',
+            }}
           >
             {bulkDelete.isPending ? t('actions.deleting') : t('actions.delete')}
           </Button>
@@ -218,17 +265,19 @@ export default function OwnedInventoriesTable() {
 
   return (
     <Panel>
-      <DataTable<Row>
-        rows={rows}
-        columns={columns}
-        loading={isLoading}
-        error={isError ? t('errors.inventoriesLoadFailed') : undefined}
-        selectionModel={selection}
-        onSelectionModelChange={(m) => setSelection(m)}
-        onRowClick={(row) => navigate(`/inventories/${row.id}?tab=items`)}
-        toolbar={toolbar}
-        emptyTitle={t('workspace.noOwnedInventories')}
-      />
+      <Box sx={{ overflowX: 'auto' }}>
+        <DataTable<Row>
+          rows={rows}
+          columns={columns}
+          loading={isLoading}
+          error={isError ? t('errors.inventoriesLoadFailed') : undefined}
+          selectionModel={selection}
+          onSelectionModelChange={(m) => setSelection(m)}
+          onRowClick={(row) => navigate(`/inventories/${row.id}?tab=items`)}
+          toolbar={toolbar}
+          emptyTitle={t('workspace.noOwnedInventories')}
+        />
+      </Box>
     </Panel>
   )
 }

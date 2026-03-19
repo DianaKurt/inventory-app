@@ -49,38 +49,45 @@ export default function InventoryHeader({ inventory, loading, error }: Props) {
     <Paper
       elevation={0}
       sx={(theme) => ({
-        p: { xs: 2.5, md: 3 },
+        p: { xs: 2, md: 3 },
         borderRadius: 3,
         border: `1px solid ${theme.palette.divider}`,
-        backgroundColor: alpha(theme.palette.background.paper, 0.92),
+        backgroundColor: theme.palette.background.paper,
         boxShadow: '0 12px 28px rgba(0,0,0,0.05)',
       })}
     >
-      <Stack spacing={1.5}>
-        <Typography variant="h5" fontWeight={800}>
+      <Stack spacing={1.25}>
+        <Typography
+          fontWeight={800}
+          sx={{
+            fontSize: { xs: '1.25rem', sm: '1.5rem' },
+            lineHeight: 1.2,
+            wordBreak: 'break-word',
+          }}
+        >
           {inventory.title}
         </Typography>
 
         <Stack
           direction="row"
-          spacing={2}
+          spacing={{ xs: 1, sm: 2 }}
           flexWrap="wrap"
           useFlexGap
-          sx={{ opacity: 0.85 }}
+          sx={{ opacity: 0.88 }}
         >
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
             <b>{t('table.category')}:</b> {inventory.category}
           </Typography>
 
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
             <b>{t('table.items')}:</b> {inventory.itemsCount}
           </Typography>
 
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
             <b>{t('table.owner')}:</b> {inventory.ownerName}
           </Typography>
 
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
             <b>{t('table.updated')}:</b> {inventory.updatedAt}
           </Typography>
         </Stack>

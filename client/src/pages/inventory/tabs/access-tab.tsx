@@ -15,6 +15,7 @@ import {
   TextField,
   Divider,
   Alert,
+  Box,
 } from '@mui/material'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded'
@@ -109,19 +110,30 @@ export default function AccessTab() {
   return (
     <Panel>
       <Stack spacing={4}>
+        {/* Header */}
         <Stack spacing={0.5}>
-          <Typography variant="h6" fontWeight={700}>
+          <Typography
+            variant="h6"
+            fontWeight={700}
+            sx={{
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              lineHeight: 1.2,
+              wordBreak: 'break-word',
+            }}
+          >
             {t('access.title')}
           </Typography>
+
           <Typography variant="body2" color="text.secondary">
             {t('access.subtitle')}
           </Typography>
         </Stack>
 
+        {/* Visibility */}
         <Paper
           elevation={0}
           sx={{
-            p: 3,
+            p: { xs: 2, md: 3 },
             borderRadius: 3,
             border: '1px solid',
             borderColor: 'divider',
@@ -151,11 +163,12 @@ export default function AccessTab() {
           </Stack>
         </Paper>
 
+        {/* Users */}
         {!isPublic && (
           <Paper
             elevation={0}
             sx={{
-              p: 3,
+              p: { xs: 2, md: 3 },
               borderRadius: 3,
               border: '1px solid',
               borderColor: 'divider',
@@ -163,9 +176,10 @@ export default function AccessTab() {
           >
             <Stack spacing={2}>
               <Stack
-                direction="row"
+                direction={{ xs: 'column', sm: 'row' }}
                 justifyContent="space-between"
-                alignItems="center"
+                alignItems={{ xs: 'stretch', sm: 'center' }}
+                spacing={1.5}
               >
                 <Typography fontWeight={600}>
                   {t('access.users')}
@@ -175,7 +189,11 @@ export default function AccessTab() {
                   startIcon={<PersonAddRoundedIcon />}
                   onClick={() => setOpenAdd(true)}
                   variant="contained"
-                  sx={{ borderRadius: 3, textTransform: 'none' }}
+                  sx={{
+                    borderRadius: 3,
+                    textTransform: 'none',
+                    width: { xs: '100%', sm: 'auto' },
+                  }}
                 >
                   {t('access.addUser')}
                 </Button>
@@ -189,48 +207,78 @@ export default function AccessTab() {
                 </Typography>
               ) : (
                 users.map((user) => (
-                  <Stack
+                  <Paper
                     key={user.id}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
+                    elevation={0}
                     sx={{
                       p: 1.5,
                       borderRadius: 2,
-                      transition: 'background 0.15s',
-                      '&:hover': { backgroundColor: 'action.hover' },
+                      border: '1px solid',
+                      borderColor: 'divider',
                     }}
                   >
-                    <Stack direction="row" spacing={2} alignItems="center">
-                      <Avatar>
-                        {user.name.charAt(0).toUpperCase()}
-                      </Avatar>
+                    <Stack
+                      direction={{ xs: 'column', sm: 'row' }}
+                      spacing={1.5}
+                      alignItems={{ xs: 'stretch', sm: 'center' }}
+                      justifyContent="space-between"
+                    >
+                      <Stack
+                        direction="row"
+                        spacing={1.5}
+                        alignItems="center"
+                        sx={{ minWidth: 0 }}
+                      >
+                        <Avatar sx={{ flexShrink: 0 }}>
+                          {user.name.charAt(0).toUpperCase()}
+                        </Avatar>
 
-                      <Stack>
-                        <Typography fontWeight={500}>
-                          {user.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {user.email}
-                        </Typography>
+                        <Box sx={{ minWidth: 0 }}>
+                          <Typography
+                            fontWeight={500}
+                            sx={{
+                              wordBreak: 'break-word',
+                            }}
+                          >
+                            {user.name}
+                          </Typography>
+
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{
+                              wordBreak: 'break-word',
+                            }}
+                          >
+                            {user.email}
+                          </Typography>
+                        </Box>
+                      </Stack>
+
+                      <Stack
+                        direction="row"
+                        justifyContent={{ xs: 'flex-end', sm: 'flex-start' }}
+                      >
+                        <IconButton
+                          color="error"
+                          onClick={() => setDeleteTarget(user)}
+                          sx={{ alignSelf: { xs: 'flex-end', sm: 'center' } }}
+                        >
+                          <DeleteRoundedIcon />
+                        </IconButton>
                       </Stack>
                     </Stack>
-
-                    <IconButton
-                      color="error"
-                      onClick={() => setDeleteTarget(user)}
-                    >
-                      <DeleteRoundedIcon />
-                    </IconButton>
-                  </Stack>
+                  </Paper>
                 ))
               )}
             </Stack>
           </Paper>
         )}
 
-        <Dialog open={openAdd} onClose={() => setOpenAdd(false)}>
+        {/* Add dialog */}
+        <Dialog open={openAdd} onClose={() => setOpenAdd(false)} fullWidth maxWidth="sm">
           <DialogTitle>{t('access.addDialogTitle')}</DialogTitle>
+
           <DialogContent sx={{ pt: 2 }}>
             <TextField
               label={t('access.userEmail')}
@@ -239,43 +287,88 @@ export default function AccessTab() {
               fullWidth
             />
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenAdd(false)}>
+
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              px: 3,
+              pb: 2,
+              gap: 1,
+            }}
+          >
+            <Button
+              onClick={() => setOpenAdd(false)}
+              sx={{
+                width: { xs: '100%', sm: 'auto' },
+                textTransform: 'none',
+              }}
+            >
               {t('actions.cancel')}
             </Button>
+
             <Button
               variant="contained"
               disabled={!newEmail.trim() || addMutation.isPending}
               onClick={() => addMutation.mutate()}
+              sx={{
+                width: { xs: '100%', sm: 'auto' },
+                textTransform: 'none',
+              }}
             >
               {t('actions.add')}
             </Button>
           </DialogActions>
         </Dialog>
 
+        {/* Remove dialog */}
         <Dialog
           open={Boolean(deleteTarget)}
           onClose={() => setDeleteTarget(null)}
+          fullWidth
+          maxWidth="xs"
         >
           <DialogTitle>{t('access.removeTitle')}</DialogTitle>
+
           <DialogContent>
             <Typography>{t('access.removeText')}</Typography>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setDeleteTarget(null)}>
+
+          <DialogActions
+            sx={{
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { xs: 'stretch', sm: 'center' },
+              px: 3,
+              pb: 2,
+              gap: 1,
+            }}
+          >
+            <Button
+              onClick={() => setDeleteTarget(null)}
+              sx={{
+                width: { xs: '100%', sm: 'auto' },
+                textTransform: 'none',
+              }}
+            >
               {t('actions.cancel')}
             </Button>
+
             <Button
               color="error"
               variant="contained"
               onClick={() => removeMutation.mutate()}
               disabled={removeMutation.isPending}
+              sx={{
+                width: { xs: '100%', sm: 'auto' },
+                textTransform: 'none',
+              }}
             >
               {t('actions.remove')}
             </Button>
           </DialogActions>
         </Dialog>
 
+        {/* Toast */}
         <Snackbar
           open={Boolean(toast)}
           autoHideDuration={3000}

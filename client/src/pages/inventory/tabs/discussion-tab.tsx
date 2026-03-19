@@ -56,7 +56,15 @@ export default function DiscussionTab() {
   return (
     <Panel>
       <Stack spacing={3}>
-        <Typography variant="h6" fontWeight={700}>
+        <Typography
+          variant="h6"
+          fontWeight={700}
+          sx={{
+            fontSize: { xs: '1.1rem', sm: '1.25rem' },
+            lineHeight: 1.2,
+            wordBreak: 'break-word',
+          }}
+        >
           {t('discussion.title')}
         </Typography>
 
@@ -64,7 +72,7 @@ export default function DiscussionTab() {
         <Paper
           elevation={0}
           sx={{
-            p: 3,
+            p: { xs: 2, md: 3 },
             borderRadius: 3,
             border: '1px solid',
             borderColor: 'divider',
@@ -87,14 +95,32 @@ export default function DiscussionTab() {
           ) : (
             <Stack spacing={2}>
               {posts.map((p) => (
-                <Stack key={p.id} spacing={0.5}>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography fontWeight={650}>{p.authorName}</Typography>
-                    <Typography variant="caption" color="text.secondary">
+                <Stack key={p.id} spacing={0.75}>
+                  <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    justifyContent="space-between"
+                    spacing={0.5}
+                  >
+                    <Typography
+                      fontWeight={650}
+                      sx={{ wordBreak: 'break-word' }}
+                    >
+                      {p.authorName}
+                    </Typography>
+
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      sx={{ wordBreak: 'break-word' }}
+                    >
                       {new Date(p.createdAt).toLocaleString()}
                     </Typography>
                   </Stack>
-                  <Typography>{p.bodyMd}</Typography>
+
+                  <Typography sx={{ wordBreak: 'break-word' }}>
+                    {p.bodyMd}
+                  </Typography>
+
                   <Divider />
                 </Stack>
               ))}
@@ -120,7 +146,8 @@ export default function DiscussionTab() {
             sx={{
               borderRadius: 3,
               textTransform: 'none',
-              alignSelf: 'flex-start',
+              alignSelf: { xs: 'stretch', sm: 'flex-start' },
+              width: { xs: '100%', sm: 'auto' },
               fontWeight: 600,
             }}
           >

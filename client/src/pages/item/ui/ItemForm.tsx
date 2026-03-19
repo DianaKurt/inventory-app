@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Alert,
   Divider,
+  Box,
 } from '@mui/material'
 import Panel from '@/shared/ui/Panel/Panel'
 import { apiPost } from '@/shared/api/http'
@@ -27,10 +28,8 @@ export default function ItemForm({ data }: { data: ItemDetailsDto }) {
     [data.fields],
   )
 
-  // local form state: fieldId - primitive value
   const [values, setValues] = useState<Record<string, any>>({})
 
-  // init values from API (per itemId / fields)
   useEffect(() => {
     const map: Record<string, any> = {}
 
@@ -84,7 +83,15 @@ export default function ItemForm({ data }: { data: ItemDetailsDto }) {
   return (
     <Panel>
       <Stack spacing={3}>
-        <Typography variant="subtitle1" fontWeight={800}>
+        <Typography
+          variant="subtitle1"
+          fontWeight={800}
+          sx={{
+            fontSize: { xs: '1rem', sm: '1.1rem' },
+            lineHeight: 1.2,
+            wordBreak: 'break-word',
+          }}
+        >
           Edit item
         </Typography>
 
@@ -112,7 +119,13 @@ export default function ItemForm({ data }: { data: ItemDetailsDto }) {
           size="large"
           disabled={saveOneField.isPending}
           onClick={onSaveAll}
-          sx={{ borderRadius: 3, textTransform: 'none', fontWeight: 750 }}
+          sx={{
+            borderRadius: 3,
+            textTransform: 'none',
+            fontWeight: 750,
+            width: { xs: '100%', sm: 'auto' },
+            alignSelf: { xs: 'stretch', sm: 'flex-start' },
+          }}
         >
           {saveOneField.isPending ? 'Saving…' : 'Save changes'}
         </Button>
@@ -195,15 +208,37 @@ function renderFieldInput({
 
     case 'BOOLEAN':
       return (
-        <FormControlLabel
-          control={
-            <Switch
-              checked={Boolean(value)}
-              onChange={(e) => onChange(e.target.checked)}
-            />
-          }
-          label={field.title}
-        />
+        <Box
+          sx={{
+            p: 1.5,
+            borderRadius: 2,
+            border: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <FormControlLabel
+            control={
+              <Switch
+                checked={Boolean(value)}
+                onChange={(e) => onChange(e.target.checked)}
+              />
+            }
+            label={field.title}
+            sx={{
+              m: 0,
+              alignItems: 'flex-start',
+            }}
+          />
+          {field.description ? (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mt: 0.5 }}
+            >
+              {field.description}
+            </Typography>
+          ) : null}
+        </Box>
       )
 
     default:

@@ -63,7 +63,7 @@ export default function WriteAccessInventoriesTable() {
   const toolbar = (
     <Box
       sx={(theme) => ({
-        p: 1.5,
+        p: { xs: 1.25, md: 1.5 },
         mb: 1.5,
         borderRadius: 2,
         border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
@@ -71,21 +71,36 @@ export default function WriteAccessInventoriesTable() {
       })}
     >
       <Stack
-        direction={{ xs: 'column', sm: 'row' }}
+        direction={{ xs: 'column', lg: 'row' }}
         spacing={1.5}
         justifyContent="space-between"
-        alignItems={{ xs: 'stretch', sm: 'center' }}
+        alignItems={{ xs: 'stretch', lg: 'center' }}
       >
-        <Stack spacing={0.2}>
-          <Typography variant="subtitle1" fontWeight={700}>
+        <Stack spacing={0.2} sx={{ minWidth: 0 }}>
+          <Typography
+            variant="subtitle1"
+            fontWeight={700}
+            sx={{
+              fontSize: { xs: '1rem', sm: '1.05rem' },
+              wordBreak: 'break-word',
+            }}
+          >
             {t('workspace.writeAccessInventories')}
           </Typography>
+
           <Typography variant="body2" color="text.secondary">
             {t('workspace.writeAccessSubtitle')}
           </Typography>
         </Stack>
 
-        <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" justifyContent="flex-end">
+        <Stack
+          direction={{ xs: 'column', sm: 'row' }}
+          spacing={1}
+          useFlexGap
+          flexWrap="wrap"
+          alignItems={{ xs: 'stretch', sm: 'center' }}
+          sx={{ width: { xs: '100%', lg: 'auto' } }}
+        >
           <Button
             variant="text"
             disabled={selection.length === 0}
@@ -95,7 +110,8 @@ export default function WriteAccessInventoriesTable() {
               borderRadius: 999,
               textTransform: 'none',
               fontWeight: 700,
-              px: 1.5,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'flex-start', sm: 'center' },
             }}
           >
             {t('actions.clear')} ({selection.length})
@@ -104,19 +120,19 @@ export default function WriteAccessInventoriesTable() {
           <Button
             variant="contained"
             disabled={selection.length !== 1}
-            onClick={() => selection[0] && navigate(`/inventories/${selection[0]}?tab=items`)}
+            onClick={() =>
+              selection[0] &&
+              navigate(`/inventories/${selection[0]}?tab=items`)
+            }
             startIcon={<OpenInNewRoundedIcon />}
             sx={(theme) => ({
               borderRadius: 999,
               textTransform: 'none',
               fontWeight: 800,
-              px: 2.4,
+              width: { xs: '100%', sm: 'auto' },
+              justifyContent: { xs: 'flex-start', sm: 'center' },
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
               boxShadow: '0 10px 24px rgba(0,0,0,0.12)',
-              '&:hover': {
-                transform: 'translateY(-1px)',
-                boxShadow: '0 14px 30px rgba(0,0,0,0.16)',
-              },
             })}
           >
             {t('actions.open')}
@@ -128,17 +144,21 @@ export default function WriteAccessInventoriesTable() {
 
   return (
     <Panel>
-      <DataTable<Row>
-        rows={rows}
-        columns={columns}
-        loading={isLoading}
-        error={isError ? t('errors.inventoriesLoadFailed') : undefined}
-        selectionModel={selection}
-        onSelectionModelChange={(m) => setSelection(m)}
-        onRowClick={(row) => navigate(`/inventories/${row.id}?tab=items`)}
-        toolbar={toolbar}
-        emptyTitle={t('workspace.noWriteAccessInventories')}
-      />
+      <Box sx={{ overflowX: 'auto' }}>
+        <DataTable<Row>
+          rows={rows}
+          columns={columns}
+          loading={isLoading}
+          error={isError ? t('errors.inventoriesLoadFailed') : undefined}
+          selectionModel={selection}
+          onSelectionModelChange={(m) => setSelection(m)}
+          onRowClick={(row) =>
+            navigate(`/inventories/${row.id}?tab=items`)
+          }
+          toolbar={toolbar}
+          emptyTitle={t('workspace.noWriteAccessInventories')}
+        />
+      </Box>
     </Panel>
   )
 }

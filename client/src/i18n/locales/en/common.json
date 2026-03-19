@@ -318,5 +318,25 @@
   "likesFailed": "Failed to load likes",
   "likesCount_one": "{{count}} like",
   "likesCount_other": "{{count}} likes"
-}
+},
+  "support": {
+    "title": "Create support ticket",
+    "summary": "Summary",
+    "summaryPlaceholder": "Describe the issue briefly",
+    "priority": "Priority",
+    "priorityHigh": "High",
+    "priorityAverage": "Average",
+    "priorityLow": "Low",
+    "reportedBy": "Reported by",
+    "inventory": "Inventory",
+    "link": "Link",
+    "adminEmails": "Admin emails",
+    "success": "Support ticket created successfully",
+    "error": "Failed to create support ticket"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "submitting": "Submitting..."
+  }
 }

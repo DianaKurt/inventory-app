@@ -320,6 +320,26 @@
   "likesCount_few": "{{count}} лайка",
   "likesCount_many": "{{count}} лайков",
   "likesCount_other": "{{count}} лайка"
-}
+},
+  "support": {
+    "title": "Создать тикет поддержки",
+    "summary": "Описание проблемы",
+    "summaryPlaceholder": "Кратко опишите проблему",
+    "priority": "Приоритет",
+    "priorityHigh": "Высокий",
+    "priorityAverage": "Средний",
+    "priorityLow": "Низкий",
+    "reportedBy": "Отправитель",
+    "inventory": "Инвентарь",
+    "link": "Ссылка",
+    "adminEmails": "Email администраторов",
+    "success": "Тикет успешно создан",
+    "error": "Ошибка при создании тикета"
+  },
+  "actions": {
+    "cancel": "Отмена",
+    "submit": "Отправить",
+    "submitting": "Отправка..."
+  }
 }
 

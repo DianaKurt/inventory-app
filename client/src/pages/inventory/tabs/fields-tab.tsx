@@ -21,13 +21,13 @@ import {
   Alert,
   Snackbar,
   IconButton,
+  alpha,
 } from '@mui/material'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded'
 import ArrowUpwardRoundedIcon from '@mui/icons-material/ArrowUpwardRounded'
 import ArrowDownwardRoundedIcon from '@mui/icons-material/ArrowDownwardRounded'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import { alpha } from '@mui/material/styles'
 import { useTranslation } from 'react-i18next'
 
 import DataTable from '@/shared/ui/DataTable/DataTable'
@@ -47,8 +47,6 @@ type ApiField = {
   required: boolean
   showInTable: boolean
 }
-
-type InventoryDetails = Awaited<ReturnType<typeof getInventoryDetails>>
 
 const FIELD_LIMITS: Record<ApiFieldType, number> = {
   TEXT_SINGLE: 3,
@@ -86,7 +84,7 @@ export default function FieldsTab() {
   })
 
   const fields: ApiField[] = useMemo(() => {
-    const arr = (data?.fields ?? []) as any as ApiField[]
+    const arr = (data?.fields ?? []) as ApiField[]
     return arr.slice().sort((a, b) => a.order - b.order)
   }, [data])
 
@@ -117,11 +115,11 @@ export default function FieldsTab() {
 
   const columns: Array<DataTableColDef<Row>> = useMemo(
     () => [
-      { field: 'title', headerName: t('fields.fieldTitle'), flex: 1, minWidth: 260 },
-      { field: 'type', headerName: t('fields.type'), width: 160 },
-      { field: 'visible', headerName: t('fields.visible'), width: 140 },
-      { field: 'required', headerName: t('fields.required'), width: 140 },
-      { field: 'order', headerName: t('fields.order'), width: 110, align: 'right' },
+      { field: 'title', headerName: t('fields.fieldTitle'), flex: 1, minWidth: 240 },
+      { field: 'type', headerName: t('fields.type'), width: 150 },
+      { field: 'visible', headerName: t('fields.visible'), width: 130 },
+      { field: 'required', headerName: t('fields.required'), width: 130 },
+      { field: 'order', headerName: t('fields.order'), width: 100, align: 'right' },
     ],
     [t],
   )
@@ -193,27 +191,48 @@ export default function FieldsTab() {
 
   const toolbar = (
     <Stack
-      direction={{ xs: 'column', sm: 'row' }}
+      direction={{ xs: 'column', lg: 'row' }}
       justifyContent="space-between"
-      alignItems={{ xs: 'stretch', sm: 'center' }}
-      spacing={1.5}
+      alignItems={{ xs: 'stretch', lg: 'center' }}
+      spacing={2}
       sx={{ mb: 2 }}
     >
-      <Box>
-        <Typography variant="h5" fontWeight={800}>
+      <Box sx={{ minWidth: 0 }}>
+        <Typography
+          variant="h5"
+          fontWeight={800}
+          sx={{
+            fontSize: { xs: '1.2rem', sm: '1.5rem' },
+            lineHeight: 1.2,
+            wordBreak: 'break-word',
+          }}
+        >
           {t('fields.title')}
         </Typography>
+
         <Typography variant="body2" color="text.secondary">
           {t('fields.subtitle')}
         </Typography>
       </Box>
 
-      <Stack direction="row" spacing={1} justifyContent="flex-end" flexWrap="wrap">
+      <Stack
+        direction={{ xs: 'column', sm: 'row' }}
+        spacing={1}
+        useFlexGap
+        flexWrap="wrap"
+        justifyContent={{ xs: 'stretch', sm: 'flex-start', lg: 'flex-end' }}
+        alignItems={{ xs: 'stretch', sm: 'center' }}
+        sx={{ width: { xs: '100%', lg: 'auto' } }}
+      >
         <Button
           variant="outlined"
           startIcon={<ArrowUpwardRoundedIcon />}
           disabled={selectedCount !== 1 || reorder.isPending}
           onClick={() => moveOne('up')}
+          sx={{
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'flex-start', sm: 'center' },
+          }}
         >
           {t('fields.up')}
         </Button>
@@ -223,6 +242,10 @@ export default function FieldsTab() {
           startIcon={<ArrowDownwardRoundedIcon />}
           disabled={selectedCount !== 1 || reorder.isPending}
           onClick={() => moveOne('down')}
+          sx={{
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'flex-start', sm: 'center' },
+          }}
         >
           {t('fields.down')}
         </Button>
@@ -233,6 +256,10 @@ export default function FieldsTab() {
           startIcon={<DeleteRoundedIcon />}
           disabled={selectedCount === 0 || deleteSelected.isPending}
           onClick={() => deleteSelected.mutate()}
+          sx={{
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'flex-start', sm: 'center' },
+          }}
         >
           {t('actions.delete')}
           {selectedCount ? ` (${selectedCount})` : ''}
@@ -248,6 +275,8 @@ export default function FieldsTab() {
             px: 3,
             fontWeight: 700,
             boxShadow: '0 10px 26px rgba(0,0,0,0.10)',
+            width: { xs: '100%', sm: 'auto' },
+            justifyContent: { xs: 'flex-start', sm: 'center' },
           }}
           disabled={!inventoryId}
         >
@@ -259,8 +288,8 @@ export default function FieldsTab() {
 
   if (isLoading) {
     return (
-      <Box sx={{ p: 3 }}>
-        <Skeleton height={44} width={260} />
+      <Box sx={{ p: { xs: 2, md: 3 } }}>
+        <Skeleton height={44} width={220} />
         <Skeleton height={90} sx={{ mt: 2 }} />
         <Skeleton height={220} sx={{ mt: 2 }} />
       </Box>
@@ -269,7 +298,7 @@ export default function FieldsTab() {
 
   if (isError) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: { xs: 2, md: 3 } }}>
         <Alert severity="error">{t('fields.failedToLoad')}</Alert>
       </Box>
     )
@@ -277,18 +306,23 @@ export default function FieldsTab() {
 
   return (
     <Fade in timeout={250}>
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: { xs: 2, md: 3 } }}>
         <Paper
           elevation={0}
           sx={(theme) => ({
             mb: 2,
-            p: 2,
+            p: { xs: 1.5, md: 2 },
             borderRadius: 3,
             border: `1px solid ${theme.palette.divider}`,
             backgroundColor: alpha(theme.palette.background.paper, 0.7),
           })}
         >
-          <Stack direction={{ xs: 'column', md: 'row' }} spacing={1.5} flexWrap="wrap">
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={1.2}
+            flexWrap="wrap"
+            useFlexGap
+          >
             {(Object.keys(FIELD_LIMITS) as ApiFieldType[]).map((fieldType) => {
               const used = counts[fieldType]
               const limit = FIELD_LIMITS[fieldType]
@@ -300,24 +334,26 @@ export default function FieldsTab() {
                   label={`${t(`fields.types.${fieldType}`)}: ${used}/${limit}`}
                   color={full ? 'error' : 'default'}
                   variant={full ? 'filled' : 'outlined'}
-                  sx={{ fontWeight: 600 }}
+                  sx={{ fontWeight: 600, maxWidth: '100%' }}
                 />
               )
             })}
           </Stack>
         </Paper>
 
-        <DataTable<Row>
-          rows={rows}
-          columns={columns}
-          loading={false}
-          error={undefined}
-          selectionModel={selection}
-          onSelectionModelChange={setSelection}
-          emptyTitle={t('fields.emptyTitle')}
-          emptyDescription={t('fields.emptyDescription')}
-          toolbar={toolbar}
-        />
+        <Box sx={{ overflowX: 'auto' }}>
+          <DataTable<Row>
+            rows={rows}
+            columns={columns}
+            loading={false}
+            error={undefined}
+            selectionModel={selection}
+            onSelectionModelChange={setSelection}
+            emptyTitle={t('fields.emptyTitle')}
+            emptyDescription={t('fields.emptyDescription')}
+            toolbar={toolbar}
+          />
+        </Box>
 
         <CreateFieldDialog
           open={open}
@@ -445,8 +481,22 @@ function CreateFieldDialog(props: {
         </Stack>
       </DialogContent>
 
-      <DialogActions sx={{ px: 3, pb: 2 }}>
-        <Button onClick={props.onClose} sx={{ textTransform: 'none' }}>
+      <DialogActions
+        sx={{
+          px: 3,
+          pb: 2,
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: { xs: 'stretch', sm: 'center' },
+          gap: 1,
+        }}
+      >
+        <Button
+          onClick={props.onClose}
+          sx={{
+            textTransform: 'none',
+            width: { xs: '100%', sm: 'auto' },
+          }}
+        >
           {t('actions.cancel')}
         </Button>
 
@@ -462,7 +512,13 @@ function CreateFieldDialog(props: {
           }
           variant="contained"
           disabled={!canSubmit}
-          sx={{ textTransform: 'none', borderRadius: 3, px: 3, fontWeight: 650 }}
+          sx={{
+            textTransform: 'none',
+            borderRadius: 3,
+            px: 3,
+            fontWeight: 650,
+            width: { xs: '100%', sm: 'auto' },
+          }}
         >
           {props.loading ? t('actions.creating') : t('actions.create')}
         </Button>
