@@ -19,20 +19,24 @@ export default function UserPage() {
 
   return (
     <Box
-      sx={(theme) => ({
+      sx={{
         minHeight: '100vh',
-        py: { xs: 3, sm: 4 },
-        background: `
-          radial-gradient(circle at 12% 0%, ${alpha(theme.palette.primary.main, 0.12)}, transparent 45%),
-          radial-gradient(circle at 88% 0%, ${alpha(theme.palette.secondary.main, 0.12)}, transparent 50%),
-          linear-gradient(to bottom, ${alpha(theme.palette.background.default, 1)}, ${alpha(theme.palette.background.default, 0.92)} 50%, ${alpha(theme.palette.background.default, 1)})
-        `,
-      })}
+        py: { xs: 2, sm: 4 },
+        backgroundColor: 'background.paper',
+      }}
     >
       <Container maxWidth="lg">
-        <Stack spacing={3}>
+        <Stack spacing={{ xs: 2, md: 3 }}>
           <Stack spacing={0.4}>
-            <Typography variant="h5" fontWeight={800}>
+            <Typography
+              variant="h5"
+              fontWeight={800}
+              sx={{
+                fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                lineHeight: 1.2,
+                wordBreak: 'break-word',
+              }}
+            >
               {t('workspace.title')}
             </Typography>
 
@@ -45,11 +49,10 @@ export default function UserPage() {
           <Paper
             elevation={0}
             sx={(theme) => ({
-              p: 2,
+              p: { xs: 1.5, md: 2 },
               borderRadius: 2,
               border: `1px solid ${alpha(theme.palette.text.primary, 0.09)}`,
-              background: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(8px)',
+              backgroundColor: theme.palette.background.paper,
               transition: 'all .2s ease',
               '&:hover': {
                 borderColor: alpha(theme.palette.primary.main, 0.35),
@@ -69,12 +72,17 @@ export default function UserPage() {
                     justifyContent: 'center',
                     background: alpha(theme.palette.primary.main, 0.12),
                     color: theme.palette.primary.main,
+                    flexShrink: 0,
                   })}
                 >
                   <Inventory2RoundedIcon fontSize="small" />
                 </Box>
 
-                <Typography variant="subtitle2" fontWeight={700}>
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={700}
+                  sx={{ wordBreak: 'break-word' }}
+                >
                   {t('workspace.owned')}
                 </Typography>
               </Stack>
@@ -89,11 +97,10 @@ export default function UserPage() {
           <Paper
             elevation={0}
             sx={(theme) => ({
-              p: 2,
+              p: { xs: 1.5, md: 2 },
               borderRadius: 2,
               border: `1px solid ${alpha(theme.palette.text.primary, 0.09)}`,
-              background: alpha(theme.palette.background.paper, 0.9),
-              backdropFilter: 'blur(8px)',
+              backgroundColor: theme.palette.background.paper,
               transition: 'all .2s ease',
               '&:hover': {
                 borderColor: alpha(theme.palette.secondary.main, 0.35),
@@ -104,7 +111,11 @@ export default function UserPage() {
             <Stack spacing={1.5}>
               <Stack direction="row" spacing={1} alignItems="center">
                 <EditRoundedIcon fontSize="small" />
-                <Typography variant="subtitle2" fontWeight={700}>
+                <Typography
+                  variant="subtitle2"
+                  fontWeight={700}
+                  sx={{ wordBreak: 'break-word' }}
+                >
                   {t('workspace.shared')}
                 </Typography>
               </Stack>
