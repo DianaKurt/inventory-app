@@ -252,7 +252,15 @@ export default function Header() {
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
       >
-        <Box sx={{ width: 280, p: 2 }}>
+        <Box
+          sx={{
+            width: 280,
+            p: 2,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+          }}
+        >
           <Stack spacing={1.5}>
             <Button
               onClick={() => {
@@ -285,9 +293,6 @@ export default function Header() {
             </Button>
 
             <Divider />
-
-            <LanguageToggle />
-            <ThemeToggle />
 
             {!user ? (
               <Button
@@ -337,19 +342,28 @@ export default function Header() {
               </>
             )}
           </Stack>
+
+          <Box sx={{ mt: 'auto', pt: 2 }}>
+            <Divider sx={{ mb: 2 }} />
+
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <LanguageToggle />
+              <ThemeToggle />
+            </Stack>
+          </Box>
         </Box>
       </Drawer>
 
       <SupportTicketDialog
-      open={supportOpen}
-      onClose={handleCloseSupport}
-      reportedBy={{
-        id: user?.id ?? 'guest',
-        name: user?.email ?? user?.email ?? 'Guest',
-        email: user?.email ?? 'guest@example.com',
-      }}
-      inventory={null}
-      adminEmails={['admin@example.com']}
+        open={supportOpen}
+        onClose={handleCloseSupport}
+        reportedBy={{
+          id: user?.id ?? 'guest',
+          name: user?.name ?? user?.email ?? 'Guest',
+          email: user?.email ?? 'guest@example.com',
+        }}
+        inventory={null}
+        adminEmails={['admin@example.com']}
       />
     </>
   )

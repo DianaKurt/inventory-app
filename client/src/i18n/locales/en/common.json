@@ -39,7 +39,9 @@
     "delete": "Delete",
     "deleting": "Deleting…",
     "cancel": "Cancel",
-    "creating": "Creating…"
+    "creating": "Creating…",
+    "submit": "Submit",
+    "submitting": "Submitting..."
   },
   "table": {
     "title": "Title",
@@ -333,10 +335,5 @@
     "adminEmails": "Admin emails",
     "success": "Support ticket created successfully",
     "error": "Failed to create support ticket"
-  },
-  "actions": {
-    "cancel": "Cancel",
-    "submit": "Submit",
-    "submitting": "Submitting..."
   }
 }
