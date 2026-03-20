@@ -13,6 +13,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded'
 import OwnedInventoriesTable from './ui/OwnedInventoriesTable'
 import WriteAccessInventoriesTable from './ui/WriteAccessInventoriesTable'
 import { useTranslation } from 'react-i18next'
+import PublicInventoriesTable from './ui/PublicInventoriesTable'
 
 export default function UserPage() {
   const { t } = useTranslation('common')
@@ -125,6 +126,49 @@ export default function UserPage() {
               <WriteAccessInventoriesTable />
             </Stack>
           </Paper>
+          {/* Public Section */}
+          <Paper
+          elevation={0} sx={(theme) => ({
+            p: { xs: 1.5, md: 2 },
+            borderRadius: 2,
+            border: `1px solid ${alpha(theme.palette.text.primary, 0.09)}`,
+            backgroundColor: theme.palette.background.paper,
+            transition: 'all .2s ease',
+            '&:hover': {
+              borderColor: alpha(theme.palette.info.main, 0.35),
+              boxShadow: '0 12px 35px rgba(0,0,0,0.05)',
+            },
+            })}
+            >
+              <Stack spacing={1.5}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Box sx={(theme) => ({
+                    width: 28,
+                    height: 28,
+                    borderRadius: 2,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: alpha(theme.palette.info.main, 0.12),
+                    color: theme.palette.info.main,
+                    flexShrink: 0,
+                  })}
+                  >
+                    <Inventory2RoundedIcon fontSize="small" />
+                 </Box>
+                 <Typography
+                 variant="subtitle2"
+                 fontWeight={700}
+                 sx={{ wordBreak: 'break-word' }}
+                 >
+                  {t('workspace.publicInventories')}
+                 </Typography>
+                </Stack>
+                <Divider sx={{ opacity: 0.6 }} />
+                <PublicInventoriesTable />
+              </Stack>
+          </Paper>
+        
         </Stack>
       </Container>
     </Box>

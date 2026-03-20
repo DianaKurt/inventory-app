@@ -7,7 +7,8 @@
     "admin": "Админ",
     "workspace": "Рабочая зона",
     "signIn": "Вход",
-    "logout": "Выход"
+    "logout": "Выход",
+    "help": "Помощь"
   },
 
   "common": {
@@ -100,7 +101,10 @@
     "writeAccessInventories": "Инвентари с доступом на запись",
     "writeAccessSubtitle": "Здесь можно редактировать элементы, но вы не владелец этих инвентарей.",
     "noOwnedInventories": "У вас нет собственных инвентарей",
-    "noWriteAccessInventories": "Нет инвентарей с доступом на запись"
+    "noWriteAccessInventories": "Нет инвентарей с доступом на запись",
+    "publicInventories": "Публичные инвентари",
+    "publicInventoriesSubtitle": "Просмотр публичных инвентарей, доступных всем",
+    "noPublicInventories": "Нет публичных инвентарей"
   },
 
   "search": {

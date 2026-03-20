@@ -13,7 +13,8 @@
     "workspace": "My workspace",
     "login": "Login",
     "signIn": "Sign in",
-    "logout": "Logout"
+    "logout": "Logout",
+    "help": "Help"
   },
     "common": {
     "loading": "Loading…",
@@ -106,7 +107,10 @@
     "writeAccessInventories": "Write access inventories",
     "writeAccessSubtitle": "You can edit items here, but you don’t own these inventories.",
     "noOwnedInventories": "No owned inventories",
-    "noWriteAccessInventories": "No write-access inventories"
+    "noWriteAccessInventories": "No write-access inventories",
+    "publicInventories": "Public inventories",
+    "publicInventoriesSubtitle": "Browse public inventories available to everyone",
+    "noPublicInventories": "No public inventories"
   },
   "categories": {
     "Equipment": "Equipment",

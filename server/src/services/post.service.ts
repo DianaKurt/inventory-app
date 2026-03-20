@@ -2,7 +2,21 @@ import { prisma } from '../db'
 import { canReadInventory, canWriteInventory } from './access.service'
 
 export async function listPosts(params: { userId: string | null; inventoryId: string }) {
-  await canReadInventory(params.userId, params.inventoryId)
+  const inventory = await prisma.inventory.findUnique({
+    where: { id: params.inventoryId },
+    select: {
+      id: true,
+      isPublic: true,
+    },
+  })
+
+  if (!inventory) {
+    throw { status: 404, message: 'inventory not found' }
+  }
+
+  if (!inventory.isPublic) {
+    await canReadInventory(params.userId, params.inventoryId)
+  }
 
   const posts = await prisma.post.findMany({
     where: { inventoryId: params.inventoryId },
@@ -23,11 +37,24 @@ export async function listPosts(params: { userId: string | null; inventoryId: st
 }
 
 export async function createPost(params: { userId: string; inventoryId: string; bodyMd: string }) {
-  // they only write to owner/writer
-  await canWriteInventory(params.userId, params.inventoryId)
-
   const body = String(params.bodyMd ?? '').trim()
   if (!body) throw { status: 400, message: 'bodyMd is required' }
+
+  const inventory = await prisma.inventory.findUnique({
+    where: { id: params.inventoryId },
+    select: {
+      id: true,
+      isPublic: true,
+    },
+  })
+
+  if (!inventory) {
+    throw { status: 404, message: 'inventory not found' }
+  }
+
+  if (!inventory.isPublic) {
+    await canWriteInventory(params.userId, params.inventoryId)
+  }
 
   return prisma.post.create({
     data: {

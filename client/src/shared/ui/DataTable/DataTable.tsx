@@ -19,7 +19,6 @@ type Props<R extends GridValidRowModel> = {
   toolbar?: React.ReactNode
   emptyTitle: string
   emptyDescription?: string
-
   sx?: SxProps<Theme>
 }
 
@@ -48,19 +47,53 @@ export default function DataTable<R extends GridValidRowModel>({
     <Box sx={{ width: '100%' }}>
       {toolbar ? <Box sx={{ mb: 2 }}>{toolbar}</Box> : null}
 
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        loading={loading}
-        disableRowSelectionOnClick
-        checkboxSelection
-        rowSelectionModel={selectionModel}
-        onRowSelectionModelChange={(m) => onSelectionModelChange?.(m)}
-        onRowClick={(p) => onRowClick?.(p.row as R)}
-        autoHeight
-
-        sx={sx}
-      />
+      <Box sx={{ width: '100%', overflowX: 'auto' }}>
+        <Box sx={{ minWidth: 720 }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            loading={loading}
+            disableRowSelectionOnClick
+            checkboxSelection
+            rowSelectionModel={selectionModel}
+            onRowSelectionModelChange={(m) => onSelectionModelChange?.(m)}
+            onRowClick={(p) => onRowClick?.(p.row as R)}
+            autoHeight
+            pageSizeOptions={[5, 10, 25]}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10,
+                  page: 0,
+                },
+              },
+            }}
+            sx={[
+              {
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 2,
+                backgroundColor: 'background.paper',
+                '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: 'action.hover',
+                  fontWeight: 700,
+                },
+                '& .MuiDataGrid-cell': {
+                  alignItems: 'center',
+                },
+                '& .MuiDataGrid-row': {
+                  cursor: onRowClick ? 'pointer' : 'default',
+                },
+                '& .MuiDataGrid-footerContainer': {
+                  borderTop: '1px solid',
+                  borderColor: 'divider',
+                },
+              },
+              ...(Array.isArray(sx) ? sx : sx ? [sx] : []),
+            ]}
+          />
+        </Box>
+      </Box>
     </Box>
   )
 }

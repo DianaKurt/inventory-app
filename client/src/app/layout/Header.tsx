@@ -289,7 +289,7 @@ export default function Header() {
               }}
               sx={{ justifyContent: 'flex-start', textTransform: 'none' }}
             >
-              Help
+              {t('nav.help')}
             </Button>
 
             <Divider />

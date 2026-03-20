@@ -34,7 +34,7 @@ export default function DiscussionTab() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['posts', inventoryId],
     enabled: Boolean(inventoryId),
-    queryFn: () => apiGet<PostRow[]>(`/posts?inventoryId=${inventoryId}`),
+    queryFn: () => apiGet<PostRow[]>(`/inventories/${inventoryId}/posts`),
     refetchInterval: 3000,
   })
 
@@ -43,7 +43,9 @@ export default function DiscussionTab() {
   const create = useMutation({
     mutationFn: async () => {
       if (!inventoryId) throw new Error('No inventoryId')
-      return apiPost('/posts', { inventoryId, bodyMd: message.trim() })
+      return apiPost(`/inventories/${inventoryId}/posts`, {
+        bodyMd: message.trim(),
+      })
     },
     onSuccess: async () => {
       setMessage('')
@@ -68,7 +70,6 @@ export default function DiscussionTab() {
           {t('discussion.title')}
         </Typography>
 
-        {/* Posts */}
         <Paper
           elevation={0}
           sx={{
@@ -128,7 +129,6 @@ export default function DiscussionTab() {
           )}
         </Paper>
 
-        {/* Input */}
         <Stack spacing={1.5}>
           <TextField
             label={t('discussion.writeMessage')}
