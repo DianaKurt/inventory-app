@@ -8,7 +8,7 @@ import { searchRouter } from './search'
 import { meRouter } from './me'
 import { adminRouter } from './admin'
 import { debugRouter } from './debug'
-
+import { supportTicketsRouter } from './support-tickets'
 
 export const apiRouter = Router()
 
@@ -20,4 +20,5 @@ apiRouter.use('/users', usersRouter)
 apiRouter.use('/search', searchRouter)
 apiRouter.use('/me', meRouter)
 apiRouter.use('/admin', adminRouter)
-apiRouter.use('/debug', debugRouter)
+apiRouter.use('/debug', debugRouter),
+apiRouter.use('/support-tickets', supportTicketsRouter)
