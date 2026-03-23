@@ -94,6 +94,9 @@ export async function createSupportTicket(payload: SupportTicketPayload) {
 
   if (!response.ok) {
     const text = await response.text()
+
+    console.log('DROPBOX STATUS:', response.status)
+    console.log('DROPBOX ERROR:', text)
     throw {
       status: 502,
       message: 'Failed to upload support ticket to Dropbox',
