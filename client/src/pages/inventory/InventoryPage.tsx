@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useParams, useSearchParams, useLocation } from 'react-router-dom'
 import {
   Container,
   Stack,
@@ -8,7 +8,10 @@ import {
   alpha,
   Typography,
   Skeleton,
+  IconButton,
 } from '@mui/material'
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded'
+import { useState } from 'react'
 
 import { apiGet } from '@/shared/api/http'
 import InventoryHeader from './ui/InventoryHeader'
@@ -22,6 +25,9 @@ import AccessTab from './tabs/access-tab'
 import CustomIdTab from './tabs/custom-id-tab'
 import SettingsTab from './tabs/settings-tab'
 import StatsTab from './tabs/stats-tab'
+
+import SupportTicketDialog from '@/features/support-ticket/ui/SupportTicketDialog'
+import { useAuth } from '@/app/providers/AuthProvider'
 
 const TAB_KEYS = [
   'items',
@@ -53,6 +59,10 @@ export default function InventoryPage() {
   const { t } = useTranslation('common')
   const { inventoryId } = useParams()
   const [sp] = useSearchParams()
+  const location = useLocation()
+  const { user } = useAuth()
+
+  const [supportOpen, setSupportOpen] = useState(false)
 
   const tab = resolveTab(sp.get('tab'))
 
@@ -104,53 +114,87 @@ export default function InventoryPage() {
   })()
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        py: { xs: 2, md: 5 },
-        backgroundColor: 'background.paper',
-      }}
-    >
-      <Container maxWidth="lg">
-        <Stack spacing={{ xs: 2, md: 2.5 }}>
-          <InventoryHeader
-            inventory={data ? { ...data, category: data.category ?? '—' } : null}
-            loading={isLoading}
-            error={isError ? t('errors.failedToLoadInventory') : undefined}
-          />
+    <>
+      <Box
+        sx={{
+          minHeight: '100vh',
+          py: { xs: 2, md: 5 },
+          backgroundColor: 'background.paper',
+        }}
+      >
+        <Container maxWidth="lg">
+          <Stack spacing={{ xs: 2, md: 2.5 }}>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="flex-start"
+              spacing={1}
+            >
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <InventoryHeader
+                  inventory={data ? { ...data, category: data.category ?? '—' } : null}
+                  loading={isLoading}
+                  error={isError ? t('errors.failedToLoadInventory') : undefined}
+                />
+              </Box>
 
-          <Paper
-            elevation={0}
-            sx={(theme) => ({
-              borderRadius: 4,
-              border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
-              overflow: 'hidden',
-              backgroundColor: theme.palette.background.paper,
-              boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
-            })}
-          >
-            <Box
+              <IconButton onClick={() => setSupportOpen(true)} aria-label="Open support ticket">
+                <HelpOutlineRoundedIcon />
+              </IconButton>
+            </Stack>
+
+            <Paper
+              elevation={0}
               sx={(theme) => ({
-                px: { xs: 1.5, md: 2 },
-                pt: { xs: 1.5, md: 2 },
-                pb: 1,
-                borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
+                borderRadius: 4,
+                border: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
+                overflow: 'hidden',
                 backgroundColor: theme.palette.background.paper,
+                boxShadow: '0 10px 30px rgba(0,0,0,0.04)',
               })}
             >
-              <InventoryTabs disabled={disabled} />
-            </Box>
+              <Box
+                sx={(theme) => ({
+                  px: { xs: 1.5, md: 2 },
+                  pt: { xs: 1.5, md: 2 },
+                  pb: 1,
+                  borderBottom: `1px solid ${alpha(theme.palette.text.primary, 0.08)}`,
+                  backgroundColor: theme.palette.background.paper,
+                })}
+              >
+                <InventoryTabs disabled={disabled} />
+              </Box>
 
-            <Box
-              sx={{
-                p: { xs: 1.5, md: 2.5 },
-              }}
-            >
-              {content}
-            </Box>
-          </Paper>
-        </Stack>
-      </Container>
-    </Box>
+              <Box
+                sx={{
+                  p: { xs: 1.5, md: 2.5 },
+                }}
+              >
+                {content}
+              </Box>
+            </Paper>
+          </Stack>
+        </Container>
+      </Box>
+
+      <SupportTicketDialog
+        open={supportOpen}
+        onClose={() => setSupportOpen(false)}
+        reportedBy={{
+          id: user?.id ?? 'guest',
+          name: user?.name ?? user?.email ?? 'Guest',
+          email: user?.email ?? 'guest@example.com',
+        }}
+        inventory={
+          data
+            ? {
+                id: data.id,
+                title: data.title,
+              }
+            : null
+        }
+        link={window.location.origin + location.pathname + location.search}
+      />
+    </>
   )
 }

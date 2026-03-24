@@ -13,7 +13,6 @@ supportTicketsRouter.post('/', authMiddleware, async (req, res, next) => {
       reportedBy: req.body?.reportedBy,
       inventory: req.body?.inventory,
       link: req.body?.link,
-      adminEmails: req.body?.adminEmails,
       createdAt: req.body?.createdAt,
     })
 

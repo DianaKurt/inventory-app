@@ -13,7 +13,7 @@ import {
   Box,
   Drawer,
 } from '@mui/material'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -52,6 +52,8 @@ export default function Header() {
   const handleCloseSupport = () => {
     setSupportOpen(false)
   }
+
+  const location = useLocation()
 
   return (
     <>
@@ -363,7 +365,7 @@ export default function Header() {
           email: user?.email ?? 'guest@example.com',
         }}
         inventory={null}
-        adminEmails={['admin@example.com']}
+        link={window.location.origin + location.pathname + location.search}
       />
     </>
   )

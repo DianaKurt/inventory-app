@@ -2,10 +2,15 @@ import { Box, Typography, Divider, Stack, Button } from '@mui/material'
 import { useState } from 'react'
 import SupportTicketDialog from '@/features/support-ticket/ui/SupportTicketDialog'
 import { useAuth } from '@/app/providers/AuthProvider'
+import { useLocation } from 'react-router-dom'
+
 
 export default function Footer() {
   const [supportOpen, setSupportOpen] = useState(false)
   const { user } = useAuth()
+
+  const location = useLocation()
+
 
   return (
     <>
@@ -56,7 +61,7 @@ export default function Footer() {
           email: user?.email ?? 'guest@example.com',
         }}
         inventory={null}
-        adminEmails={['admin@example.com']}
+        link={window.location.origin + location.pathname + location.search}
       />
     </>
   )

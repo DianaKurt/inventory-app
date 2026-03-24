@@ -32,7 +32,6 @@ type Props = {
     id?: string | null
     title: string
   } | null
-  adminEmails: string[]
   link?: string
 }
 
@@ -43,7 +42,6 @@ export default function SupportTicketDialog({
   onClose,
   reportedBy,
   inventory = null,
-  adminEmails,
   link,
 }: Props) {
   const { t } = useTranslation('common')
@@ -73,7 +71,6 @@ export default function SupportTicketDialog({
         reportedBy,
         inventory,
         link: currentLink,
-        adminEmails,
         createdAt: new Date().toISOString(),
       }
 
@@ -90,7 +87,6 @@ export default function SupportTicketDialog({
   const canSubmit =
     summary.trim().length >= 5 &&
     Boolean(reportedBy?.email) &&
-    adminEmails.length > 0 &&
     !mutation.isPending
 
   return (
@@ -153,14 +149,6 @@ export default function SupportTicketDialog({
               sx={{ wordBreak: 'break-word' }}
             >
               {t('support.link')}: {currentLink}
-            </Typography>
-
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ wordBreak: 'break-word' }}
-            >
-              {t('support.adminEmails')}: {adminEmails.join(', ')}
             </Typography>
           </Stack>
         </Stack>

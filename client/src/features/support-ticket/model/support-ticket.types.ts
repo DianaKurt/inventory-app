@@ -19,7 +19,6 @@ export type CreateSupportTicketPayload = {
   reportedBy: SupportTicketReportedBy
   inventory: SupportTicketInventory
   link: string
-  adminEmails: string[]
   createdAt: string
 }
 

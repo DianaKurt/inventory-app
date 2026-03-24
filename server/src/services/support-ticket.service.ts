@@ -1,3 +1,4 @@
+import { prisma } from '../db'
 import { env } from '../env'
 
 export type SupportTicketPayload = {
@@ -13,7 +14,6 @@ export type SupportTicketPayload = {
     title: string
   } | null
   link: string
-  adminEmails: string[]
   createdAt?: string
 }
 
@@ -25,7 +25,7 @@ function sanitizeFileNamePart(value: string) {
     .slice(0, 50)
 }
 
-function buildTicketJson(payload: SupportTicketPayload) {
+function buildTicketJson(payload: SupportTicketPayload, adminEmails: string[]) {
   return {
     'Reported by': {
       id: payload.reportedBy.id,
@@ -35,7 +35,7 @@ function buildTicketJson(payload: SupportTicketPayload) {
     Inventory: payload.inventory?.title ?? null,
     Link: payload.link,
     Priority: payload.priority,
-    'Admins e-mail addresses': payload.adminEmails,
+    'Admins e-mail addresses': adminEmails,
     Summary: payload.summary,
     CreatedAt: payload.createdAt ?? new Date().toISOString(),
   }
@@ -56,8 +56,21 @@ export async function createSupportTicket(payload: SupportTicketPayload) {
     throw { status: 400, message: 'reportedBy.email is required' }
   }
 
-  if (!Array.isArray(payload.adminEmails) || payload.adminEmails.length === 0) {
-    throw { status: 400, message: 'adminEmails must be a non-empty array' }
+  const admins = await prisma.user.findMany({
+    where: {
+      role: 'ADMIN',
+    },
+    select: {
+      email: true,
+    },
+  })
+
+  const adminEmails = admins
+    .map((x) => x.email?.trim())
+    .filter((x): x is string => Boolean(x))
+
+  if (adminEmails.length === 0) {
+    throw { status: 400, message: 'No admin emails found' }
   }
 
   if (!env.DROPBOX_ACCESS_TOKEN) {
@@ -74,7 +87,11 @@ export async function createSupportTicket(payload: SupportTicketPayload) {
   const basePath = env.DROPBOX_SUPPORT_TICKETS_PATH || '/support-tickets'
   const dropboxPath = `${basePath.replace(/\/+$/, '')}/${fileName}`
 
-  const jsonBody = JSON.stringify(buildTicketJson({ ...payload, createdAt: iso }), null, 2)
+  const jsonBody = JSON.stringify(
+    buildTicketJson({ ...payload, createdAt: iso }, adminEmails),
+    null,
+    2,
+  )
 
   const response = await fetch('https://content.dropboxapi.com/2/files/upload', {
     method: 'POST',
@@ -97,6 +114,7 @@ export async function createSupportTicket(payload: SupportTicketPayload) {
 
     console.log('DROPBOX STATUS:', response.status)
     console.log('DROPBOX ERROR:', text)
+
     throw {
       status: 502,
       message: 'Failed to upload support ticket to Dropbox',
@@ -113,5 +131,3 @@ export async function createSupportTicket(payload: SupportTicketPayload) {
     path: uploaded.path_display ?? dropboxPath,
   }
 }
-
-
